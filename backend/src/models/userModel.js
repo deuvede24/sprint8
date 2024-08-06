@@ -1,3 +1,4 @@
+// src/models/userModel.js
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
@@ -29,7 +30,6 @@ const User = sequelize.define('User', {
     get() {
       const rawValue = this.getDataValue('roles');
       if (!rawValue) {
-        console.log('Valor de roles es undefined o null');
         return [];
       }
       return rawValue.split(',');
@@ -44,7 +44,7 @@ const User = sequelize.define('User', {
   },
 },{
   indexes: [{ unique: true, fields: ['email'] }],
-  timestamps: true, // Activa la creación automática de createdAt y updatedAt
+  timestamps: true,
   updatedAt: 'updated_at',
   createdAt: 'created_at'
 });

@@ -1,10 +1,9 @@
-import { check, body } from 'express-validator';
+import { param, body } from 'express-validator';
 
 export const idValidator = [
-    check('id').isInt().withMessage('Invalid ID')
+    param('id').isInt().withMessage('Invalid ID')
 ]
 
 export const nameValidator = [
     body('name').isString().withMessage('Invalid Name file')
 ]
-

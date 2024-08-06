@@ -1,14 +1,16 @@
-// src/routes/userRoutes.js
+// src/routes/testRoutes.js
+// src/routes/testRoutes.js
 import { Router } from 'express';
+import { allAccess, userBoard, guestBoard, adminBoard } from '../controllers/testController.js';
 import { authenticateToken } from '../middlewares/authenticateToken.js';
-import { allAccess, userBoard, moderatorBoard, adminBoard } from '../controllers/testController.js';
 
 const router = Router();
 
-// Rutas para obtener y modificar los datos de los usuarios
 router.get('/all', allAccess);
-router.get('/user', authenticateToken(['user']), userBoard);
-router.get('/mod', authenticateToken(['mod','admin']), moderatorBoard);
+router.get('/user', authenticateToken(['registered', 'admin']), userBoard);
+router.get('/guest', authenticateToken(['guest', 'registered', 'admin']), guestBoard);
 router.get('/admin', authenticateToken(['admin']), adminBoard);
 
 export default router;
+
+
