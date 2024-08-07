@@ -31,7 +31,7 @@ const router = Router();
 router.get('/me', authenticateToken(['guest', 'registered', 'admin']), getUser);
 
 // Ruta para subir la foto del usuario autenticado
-router.post('/me/upload-photo', authenticateToken(['registered', 'admin']), uploadFileMiddleware, uploadPhoto);
+router.post('/upload-photo', authenticateToken(['registered', 'admin']), uploadFileMiddleware, uploadPhoto);
 
 // Rutas CRUD para administradores
 router.get('/', authenticateToken(['admin']), getUsers); // Solo los administradores pueden obtener la lista de todos los usuarios

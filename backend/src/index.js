@@ -72,7 +72,7 @@ app.use(express.json());
 
   // Configurar rutas
   app.use('/auth', authRoutes);
-  app.use('/user', userRoutes);
+  app.use('/users', userRoutes);
   app.use('/recipes', recipeRoutes); // Asegúrate de que esta línea esté correcta
   app.use('/test', testRoutes); // Si esto es necesario
 
