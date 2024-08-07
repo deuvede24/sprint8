@@ -65,20 +65,33 @@ const insertInitialData = async () => {
       password: hashedPassword,
       name: 'Admin',
       surname: 'User',
-      roles: ['admin']
+      roles: ['admin'],
+      photo: null,
+      location: 'Location1',
+      preference: 'original',
+      avatar: null
     },
     {
       email: 'user@example.com',
       password: hashedPassword,
       name: 'User',
       surname: 'Example',
-      roles: ['registered']
+      roles: ['registered'],
+      photo: null,
+      location: 'Location2',
+      preference: 'vegan',
+      avatar: null
     },
     {
       email: 'guest@example.com',
-      password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', // pass: ismael123
+      password: 'hashedpassword3',
       name: 'Guest',
-      roles: ['guest']
+      surname: null,
+      roles: ['guest'],
+      photo: null,
+      location: 'Location3',
+      preference: 'vegetarian',
+      avatar: null
     },
   ]; await User.bulkCreate(userData, { ignoreDuplicates: true });
 
