@@ -127,6 +127,8 @@ import User from './models/userModel.js';
 import Recipe from './models/recipeModel.js';
 import Ingredient from './models/ingredientModel.js';
 import RecipeIngredient from './models/recipeIngredientModel.js';
+import Comment from './models/commentModel.js';
+import Favorite from './models/favoriteModel.js';
 
 const insertInitialData = async () => {
   const hashedPassword = await bcrypt.hash('password123', parseInt(process.env.BCRYPT_SALT));
@@ -208,6 +210,35 @@ const insertInitialData = async () => {
   const ingredients = await Ingredient.findAll({ where: { name: ['Spaghetti', 'Tomato Sauce', 'Ground Beef', 'Lettuce', 'Tomatoes', 'Dressing'] } });
 
   console.log('Ingredients:', ingredients);
+
+  const commentData = [
+    {
+      content: 'Great recipe!',
+      user_id: 1,
+      recipe_id: 1,
+    },
+    {
+      content: 'Loved it!',
+      user_id: 2,
+      recipe_id: 2,
+    },
+  ];
+  await Comment.bulkCreate(commentData, { ignoreDuplicates: true });
+  console.log('Comments inserted successfully');
+
+  const favoriteData = [
+    {
+      user_id: 1,
+      recipe_id: 2,
+    },
+    {
+      user_id: 2,
+      recipe_id: 1,
+    },
+  ];
+  await Favorite.bulkCreate(favoriteData, { ignoreDuplicates: true });
+  console.log('Favorites inserted successfully');
+
 
   const recipeIngredientsData = [
     { recipe_id: recipes[0].id_recipe, ingredient_id: ingredients[0].id_ingredient, quantity: '200g' },
