@@ -37,9 +37,18 @@ const User = sequelize.define(
         }
         return rawValue.split(",");
       },
-      set(value) {
+      /*set(value) {
         this.setDataValue("roles", value.join(","));
-      },
+      },*/
+      set(value) {
+        if (Array.isArray(value)) {
+            this.setDataValue('roles', value.join(','));
+        } else {
+            this.setDataValue('roles', value); // O maneja el caso de que value no sea un array de otra manera
+        }
+        
+    },
+    
     },
     photo: {
       type: DataTypes.STRING(30),

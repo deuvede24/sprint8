@@ -23,6 +23,7 @@ router.get('/', authenticateToken(['guest', 'registered', 'admin']), getRecipeIn
 router.get('/:recipe_id/:ingredient_id', authenticateToken(['guest', 'registered', 'admin']), getRecipeIngredientById);
 router.post('/', authenticateToken(['registered', 'admin']), recipeIngredientValidator, addRecipeIngredient);
 router.put('/:recipe_id/:ingredient_id', authenticateToken(['registered', 'admin']), recipeIngredientValidator, updateRecipeIngredient);
+router.patch('/:recipe_id/:ingredient_id', authenticateToken(['registered', 'admin']), updateRecipeIngredient); // Nueva ruta PATCH
 router.delete('/:recipe_id/:ingredient_id', authenticateToken(['admin']), deleteRecipeIngredient);
 
 export default router;
