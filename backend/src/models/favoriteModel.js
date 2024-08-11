@@ -38,3 +38,5 @@ Favorite.belongsTo(User, { foreignKey: 'user_id' });
 Favorite.belongsTo(Recipe, { foreignKey: 'recipe_id' });
 
 export default Favorite;
+
+

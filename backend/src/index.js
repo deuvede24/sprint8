@@ -81,10 +81,10 @@ app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/recipes", recipeRoutes); // Asegúrate de que esta línea esté correcta
 app.use("/test", testRoutes); // Si esto es necesario
-app.use("/api/comments", commentRoutes);
-app.use("/api/favorites", favoriteRoutes);
-app.use("/api/ingredients", ingredientRoutes);
-app.use("/api/recipe-ingredients", recipeIngredientRoutes);
+app.use("/comments", commentRoutes);
+app.use("/favorites", favoriteRoutes);
+app.use("/ingredients", ingredientRoutes);
+app.use("/recipe-ingredients", recipeIngredientRoutes);
 
 // Iniciar el servidor
 const PORT = 3000;

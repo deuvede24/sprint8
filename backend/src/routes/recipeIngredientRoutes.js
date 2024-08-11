@@ -1,4 +1,4 @@
-import { Router } from 'express';
+/*import { Router } from 'express';
 import { getRecipeIngredients, getRecipeIngredientById, addRecipeIngredient, updateRecipeIngredient, deleteRecipeIngredient } from '../controllers/recipeIngredientController.js';
 import { authenticateToken } from '../middlewares/authenticateToken.js';
 
@@ -10,4 +10,20 @@ router.post('/', authenticateToken(['registered', 'admin']), addRecipeIngredient
 router.put('/:recipe_id/:ingredient_id', authenticateToken(['registered', 'admin']), updateRecipeIngredient);
 router.delete('/:recipe_id/:ingredient_id', authenticateToken(['admin']), deleteRecipeIngredient);
 
+export default router;*/
+
+import { Router } from 'express';
+import { getRecipeIngredients, getRecipeIngredientById, addRecipeIngredient, updateRecipeIngredient, deleteRecipeIngredient } from '../controllers/recipeIngredientController.js';
+import { authenticateToken } from '../middlewares/authenticateToken.js';
+import { recipeIngredientValidator } from '../validations/recipeIngredientValidation.js';
+
+const router = Router();
+
+router.get('/', authenticateToken(['guest', 'registered', 'admin']), getRecipeIngredients);
+router.get('/:recipe_id/:ingredient_id', authenticateToken(['guest', 'registered', 'admin']), getRecipeIngredientById);
+router.post('/', authenticateToken(['registered', 'admin']), recipeIngredientValidator, addRecipeIngredient);
+router.put('/:recipe_id/:ingredient_id', authenticateToken(['registered', 'admin']), recipeIngredientValidator, updateRecipeIngredient);
+router.delete('/:recipe_id/:ingredient_id', authenticateToken(['admin']), deleteRecipeIngredient);
+
 export default router;
+
