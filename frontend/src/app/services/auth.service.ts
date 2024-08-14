@@ -54,11 +54,11 @@ export class AuthService {
   private httpClient = inject(HttpClient);
 
   register(user: User): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/register`, user);
+    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user);
   }
 
   login(user: Login): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/login`, user).pipe(
+    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/login`, user).pipe(
       tap((response: AuthResponse) => {
         localStorage.setItem('token', response.accessToken);
         localStorage.setItem('user', JSON.stringify(response.user));
