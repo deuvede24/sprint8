@@ -133,13 +133,23 @@ export class RegisterComponent implements OnInit {
       validators: this.checkPasswords
     };
 
+    /* this.registerForm = this.formBuilder.group({
+       fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$/)]],
+       email: ['', [Validators.required, Validators.email]],
+       password: ['', [Validators.required, Validators.minLength(6)]],
+       confirmPassword: ['', [Validators.required]]
+     }, formOptions);
+   }*/
+
     this.registerForm = this.formBuilder.group({
-      fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$/)]],
+      name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$/)]],
+      surname: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$/)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     }, formOptions);
   }
+
 
   ngOnInit(): void { }
 
@@ -168,9 +178,11 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const { fullName, email, password } = this.registerForm.value;
-    const role = 'user';  // Aquí definimos el rol por defecto
-    this.authService.register({ fullName, email, password, role }).subscribe({
+    //const { fullName, email, password } = this.registerForm.value;
+    const { name, surname, email, password } = this.registerForm.value;
+    //const role = 'user';  // Aquí definimos el rol por defecto
+   // this.authService.register({ fullName, email, password }).subscribe({
+      this.authService.register({ name, surname, email, password }).subscribe({
       next: () => {
         this.authService.login({ email, password }).subscribe({
           next: () => {

@@ -20,7 +20,7 @@ export const register = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, name, surname, roles, location, preference, avatar } = req.body;
+    const { email, password, name, surname, location, preference, avatar } = req.body;
 
     // Verificar si ya existe un usuario con el mismo correo electrónico
     const existingUser = await User.findOne({ where: { email }});
@@ -31,14 +31,14 @@ export const register = async (req, res) => {
       });
     }
 
-    // Verificar que el campo roles no esté vacío
+    /* Verificar que el campo roles no esté vacío
     if (!roles) {
       return res.status(400).json({
         code: -100,
         message: 'Roles field cannot be empty',
         error: { message: 'Roles field cannot be empty' }
       });
-    }
+    }*/
 
     // Crear un nuevo usuario
     const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
@@ -47,7 +47,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       name,
       surname,
-      roles,
+      roles:'user',
       location,
       preference,
       avatar,
