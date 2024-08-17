@@ -34,6 +34,7 @@ const Recipe = sequelize.define('Recipe', {
     defaultValue: 0
   }
 }, {
+  
   indexes: [{ unique: true, fields: ['title'] }],
   timestamps: true,
   updatedAt: 'updated_at',

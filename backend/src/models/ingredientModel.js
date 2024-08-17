@@ -10,9 +10,11 @@ const Ingredient = sequelize.define('Ingredient', {
   name: {
     type: DataTypes.STRING(100),
     allowNull: false,
-    unique: true
+    //unique: true
   }
 }, {
+  //tableName: 'ingredients',
+  indexes: [{ unique: true, fields: ["name"] }],
   timestamps: false // No necesitamos created_at ni updated_at para este modelo
 });
 

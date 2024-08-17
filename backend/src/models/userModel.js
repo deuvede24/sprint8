@@ -13,7 +13,7 @@ const User = sequelize.define(
     email: {
       type: DataTypes.STRING(100),
       allowNull: false,
-      unique: true,
+    //  unique: true,
     },
     password: {
       type: DataTypes.STRING(100),
@@ -68,6 +68,7 @@ const User = sequelize.define(
     },
   },
   {
+    tableName: 'users',
     indexes: [{ unique: true, fields: ["email"] }],
     timestamps: true,
     updatedAt: "updated_at",
