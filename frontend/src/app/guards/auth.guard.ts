@@ -13,6 +13,8 @@ export class AuthGuard implements CanActivate {
         const isLoggedIn = this.authService.isLoggedIn();
         const userRole = this.authService.getUserRole();
         const requiredRole = route.data['role'] as string;
+        
+        console.log(`isLoggedIn: ${isLoggedIn}, userRole: ${userRole}, requiredRole: ${requiredRole}`);
 
         if (isLoggedIn && (!requiredRole || requiredRole === userRole)) {
             console.log('AuthGuard: Access granted');

@@ -7,8 +7,8 @@ import { authenticateToken } from '../middlewares/authenticateToken.js';
 const router = Router();
 
 router.get('/all', allAccess);
-router.get('/user', authenticateToken(['registered', 'admin']), userBoard);
-router.get('/guest', authenticateToken(['guest', 'registered', 'admin']), guestBoard);
+router.get('/user', authenticateToken(['user', 'admin']), userBoard);
+router.get('/guest', authenticateToken(['guest', 'user', 'admin']), guestBoard);
 router.get('/admin', authenticateToken(['admin']), adminBoard);
 
 export default router;

@@ -26,7 +26,7 @@ const insertInitialData = async () => {
       password: hashedPassword,
       name: 'User',
       surname: 'Example',
-      roles: ['registered'],
+      roles: ['user'],
       photo: null,
       location: 'Location2',
       preference: 'vegan',

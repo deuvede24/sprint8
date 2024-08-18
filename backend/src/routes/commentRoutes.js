@@ -5,10 +5,10 @@ import { commentValidator } from '../validations/commentValidation.js'; // Añad
 
 const router = Router();
 
-router.get('/', authenticateToken(['guest', 'registered', 'admin']), getComments);
-router.get('/:id', authenticateToken(['guest', 'registered', 'admin']), getCommentById);
-router.post('/', authenticateToken(['registered', 'admin']), commentValidator, addComment); // Añade commentValidator aquí
-router.put('/:id', authenticateToken(['registered', 'admin']), commentValidator, updateComment); // Añade commentValidator aquí
+router.get('/', authenticateToken(['guest', 'user', 'admin']), getComments);
+router.get('/:id', authenticateToken(['guest', 'user', 'admin']), getCommentById);
+router.post('/', authenticateToken(['user', 'admin']), commentValidator, addComment); // Añade commentValidator aquí
+router.put('/:id', authenticateToken(['user', 'admin']), commentValidator, updateComment); // Añade commentValidator aquí
 router.delete('/:id', authenticateToken(['admin']), deleteComment);
 
 export default router;

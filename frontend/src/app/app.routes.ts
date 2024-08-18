@@ -30,7 +30,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 
-export const routes: Routes = [
+/*export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -41,6 +41,27 @@ export const routes: Routes = [
   { path: 'recipes/add', component: AddEditRecipeComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: 'recipes/edit/:id', component: AddEditRecipeComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: 'recipes/view/:id', component: ViewRecipeComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
+];*/
+
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  // Rutas protegidas por roles
+  { path: 'map', component: MapComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  { path: 'fullcalendar', component: FullcalendarComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  { path: 'charts', component: ChartsComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  
+  { path: 'recipes', component: ListRecipesComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  { path: 'recipes/add', component: AddEditRecipeComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'recipes/edit/:id', component: AddEditRecipeComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'recipes/view/:id', component: ViewRecipeComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  
+  // Ruta para invitados
+  { path: 'guest', component: ListRecipesComponent, canActivate: [AuthGuard], data: { role: 'guest' } },
+
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

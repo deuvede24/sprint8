@@ -1,1 +1,28 @@
 <p>home works!</p>
+<!--<div class="container text-center mt-5">
+    <h1>Bienvenido a CRUD Recetas</h1>
+    <p>Gestiona tus recetas fácilmente.</p>
+    <div class="mt-3">
+      <button class="btn btn-primary me-2" routerLink="/login">Login</button>
+      <button class="btn btn-secondary" routerLink="/register">Register</button>
+    </div>
+  </div>-->
+  <div class="container mt-4 text-center">
+    <h1>Bienvenido a CRUD Recetas</h1>
+    @if (!isLoggedIn()) {
+      <p>
+        Para comenzar, por favor <a routerLink="/login">inicia sesión</a>, <a routerLink="/register">regístrate</a>, o 
+        <button class="btn btn-link" (click)="setGuestRole()">entra como invitado</button>.
+      </p>
+    } @else if (getUserRole() === 'guest') {
+      <p>
+        Estás navegando como invitado. <a routerLink="/login">Inicia sesión</a> para tener acceso completo.
+      </p>
+    } @else {
+      <p>
+        ¡Hola, bienvenido de nuevo! Accede a las <a routerLink="/recipes">recetas</a> o administra tu cuenta.
+      </p>
+    }
+  </div>
+
+  

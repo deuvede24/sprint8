@@ -5,11 +5,11 @@ import { recipeIngredientValidator } from '../validations/recipeIngredientValida
 
 const router = Router();
 
-router.get('/', authenticateToken(['guest', 'registered', 'admin']), getRecipeIngredients);
-router.get('/:recipe_id/:ingredient_id', authenticateToken(['guest', 'registered', 'admin']), getRecipeIngredientById);
-router.post('/', authenticateToken(['registered', 'admin']), recipeIngredientValidator, addRecipeIngredient);
-router.put('/:recipe_id/:ingredient_id', authenticateToken(['registered', 'admin']), recipeIngredientValidator, updateRecipeIngredient);
-router.patch('/:recipe_id/:ingredient_id', authenticateToken(['registered', 'admin']), updateRecipeIngredient); // Nueva ruta PATCH
+router.get('/', authenticateToken(['guest', 'user', 'admin']), getRecipeIngredients);
+router.get('/:recipe_id/:ingredient_id', authenticateToken(['guest', 'user', 'admin']), getRecipeIngredientById);
+router.post('/', authenticateToken(['user', 'admin']), recipeIngredientValidator, addRecipeIngredient);
+router.put('/:recipe_id/:ingredient_id', authenticateToken(['user', 'admin']), recipeIngredientValidator, updateRecipeIngredient);
+router.patch('/:recipe_id/:ingredient_id', authenticateToken(['user', 'admin']), updateRecipeIngredient); // Nueva ruta PATCH
 router.delete('/:recipe_id/:ingredient_id', authenticateToken(['admin']), deleteRecipeIngredient);
 
 export default router;

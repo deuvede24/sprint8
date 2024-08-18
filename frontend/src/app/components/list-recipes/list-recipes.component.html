@@ -1,4 +1,4 @@
-<p>list-recipes works!</p>
+<!--<p>list-recipes works!</p>
 <div class="container">
     <table class="table table-striped">
       <thead>
@@ -27,6 +27,44 @@
         }
       </tbody>
     </table>
-  </div>
+  </div>-->
+
+  <div class="container mt-4">
+    <div class="card border-secondary">
+        <div class="card-header bg-primary text-white">
+            <h4>Listado de Recetas</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (recipes.length > 0) {
+                        @for (recipe of recipes; track recipe.id) {
+                            <tr>
+                                <td>{{ recipe.title }}</td>
+                                <td>{{ recipe.description }}</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" (click)="editRecipe(recipe.id)">Editar</button>
+                                    <button class="btn btn-danger btn-sm ms-2" (click)="deleteRecipe(recipe.id)">Eliminar</button>
+                                </td>
+                            </tr>
+                        }
+                    } @else {
+                        <tr>
+                            <td colspan="3" class="text-center">No hay recetas disponibles.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
   
   
