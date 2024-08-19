@@ -4,12 +4,21 @@
   password: string;
   role?: 'admin' | 'user' | 'guest';  // Añadimos el rol aquí
 }*/
-export interface User {
+/*export interface User {
   name: string;
   surname: string;
   email: string;
   password: string;
   role?: 'admin' | 'user' | 'guest';
+}*/
+
+export interface User {
+  id: number;
+  email: string;
+  role: 'admin' | 'user' | 'guest';
+  name?: string;
+  surname?: string;
+  password?: string;
 }
 
 

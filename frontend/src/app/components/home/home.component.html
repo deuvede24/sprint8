@@ -39,11 +39,12 @@
       </p>
     } @else {
       <p>
-        ¡Hola, {{ getUserName() }}! Accede a las <a routerLink="/recipes">recetas</a> o administra tu cuenta.
-        <button class="btn btn-link" (click)="logout()">Cerrar sesión</button>
+        ¡Hola, {{ getFullName() }}! Accede a las <a routerLink="/recipes">recetas</a> o administra tu cuenta.
       </p>
+      <button class="btn btn-link" (click)="logout()">Cerrar sesión</button>
     }
   </div>
+  
   
   
   
