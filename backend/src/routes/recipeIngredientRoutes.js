@@ -5,8 +5,8 @@ import { recipeIngredientValidator } from '../validations/recipeIngredientValida
 
 const router = Router();
 
-router.get('/', authenticateToken(['guest', 'user', 'admin']), getRecipeIngredients);
-router.get('/:recipe_id/:ingredient_id', authenticateToken(['guest', 'user', 'admin']), getRecipeIngredientById);
+router.get('/', authenticateToken(['user', 'admin']), getRecipeIngredients);
+router.get('/:recipe_id/:ingredient_id', authenticateToken(['user', 'admin']), getRecipeIngredientById);
 router.post('/', authenticateToken(['user', 'admin']), recipeIngredientValidator, addRecipeIngredient);
 router.put('/:recipe_id/:ingredient_id', authenticateToken(['user', 'admin']), recipeIngredientValidator, updateRecipeIngredient);
 router.patch('/:recipe_id/:ingredient_id', authenticateToken(['user', 'admin']), updateRecipeIngredient); // Nueva ruta PATCH

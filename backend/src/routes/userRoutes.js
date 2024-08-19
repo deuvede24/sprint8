@@ -7,7 +7,7 @@ import { uploadFileMiddleware } from '../middlewares/upload.js';
 const router = Router();
 
 // Ruta para obtener el perfil del usuario autenticado
-router.get('/me', authenticateToken(['guest', 'user', 'admin']), getUser);
+router.get('/me', authenticateToken(['user', 'admin']), getUser);
 
 // Ruta para subir la foto del usuario autenticado
 router.post('/upload-photo', authenticateToken(['user', 'admin']), uploadFileMiddleware, uploadPhoto);

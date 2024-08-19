@@ -5,8 +5,8 @@ import { ingredientValidator } from '../validations/ingredientValidation.js';
 
 const router = Router();
 
-router.get('/', authenticateToken(['guest', 'user', 'admin']), getIngredients);
-router.get('/:id', authenticateToken(['guest', 'user', 'admin']), getIngredientById);
+router.get('/', authenticateToken(['user', 'admin']), getIngredients);
+router.get('/:id', authenticateToken(['user', 'admin']), getIngredientById);
 router.post('/', authenticateToken(['user', 'admin']), ingredientValidator, addIngredient);
 router.put('/:id', authenticateToken(['user', 'admin']), ingredientValidator, updateIngredient);
 router.delete('/:id', authenticateToken(['admin']), deleteIngredient);

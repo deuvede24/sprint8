@@ -7,7 +7,8 @@
       <button class="btn btn-secondary" routerLink="/register">Register</button>
     </div>
   </div>-->
-  <div class="container mt-4 text-center">
+
+ <!-- <div class="container mt-4 text-center">
     <h1>Bienvenido a CRUD Recetas</h1>
     @if (!isLoggedIn()) {
       <p>
@@ -23,6 +24,26 @@
         ¡Hola, bienvenido de nuevo! Accede a las <a routerLink="/recipes">recetas</a> o administra tu cuenta.
       </p>
     }
-  </div>
+  </div>-->
 
+  <div class="container mt-4 text-center">
+    <h1>Bienvenido a CRUD Recetas</h1>
+    @if (!isLoggedIn()) {
+      <p>
+        Para comenzar, por favor <a routerLink="/login">inicia sesión</a>, <a routerLink="/register">regístrate</a>, o 
+        <button class="btn btn-link" (click)="setGuestRole()">entra como invitado</button>.
+      </p>
+    } @else if (getUserRole() === 'guest') {
+      <p>
+        Estás navegando como invitado. <a routerLink="/login">Inicia sesión</a> para tener acceso completo.
+      </p>
+    } @else {
+      <p>
+        ¡Hola, {{ getUserName() }}! Accede a las <a routerLink="/recipes">recetas</a> o administra tu cuenta.
+        <button class="btn btn-link" (click)="logout()">Cerrar sesión</button>
+      </p>
+    }
+  </div>
+  
+  
   

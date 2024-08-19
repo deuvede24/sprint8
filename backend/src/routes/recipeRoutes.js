@@ -7,8 +7,8 @@ import { idValidator } from '../validations/genericValidation.js';
 
 const router = Router();
 
-router.get('/', authenticateToken(['guest', 'user', 'admin']), getRecipes);
-router.get('/:id', authenticateToken(['guest', 'user', 'admin']), idValidator, getRecipeById);
+router.get('/', authenticateToken(['user', 'admin']), getRecipes);
+router.get('/:id', authenticateToken(['user', 'admin']), idValidator, getRecipeById);
 router.post('/', authenticateToken(['user', 'admin']), recipeValidator, addRecipe);
 router.patch('/:id', authenticateToken(['user', 'admin']), idValidator, recipeValidator, updateRecipe);
 router.delete('/:id', authenticateToken(['admin']), idValidator, deleteRecipe);

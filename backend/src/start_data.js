@@ -32,7 +32,7 @@ const insertInitialData = async () => {
       preference: 'vegan',
       avatar: null
     },
-    {
+   /* {
       email: 'guest@example.com',
       password: 'hashedpassword3',
       name: 'Guest',
@@ -42,7 +42,7 @@ const insertInitialData = async () => {
       location: 'Location3',
       preference: 'vegetarian',
       avatar: null
-    },
+    },*/
   ];
 
   await User.bulkCreate(userData, { ignoreDuplicates: true });

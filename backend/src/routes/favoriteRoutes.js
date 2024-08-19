@@ -5,8 +5,8 @@ import { favoriteValidator } from '../validations/favoriteValidation.js';
 
 const router = Router();
 
-router.get('/', authenticateToken(['guest', 'user', 'admin']), getFavorites);
-router.get('/:id', authenticateToken(['guest', 'user', 'admin']), getFavoriteById);
+router.get('/', authenticateToken(['user', 'admin']), getFavorites);
+router.get('/:id', authenticateToken(['user', 'admin']), getFavoriteById);
 router.post('/', authenticateToken(['user', 'admin']), favoriteValidator, addFavorite);
 router.delete('/:id', authenticateToken(['admin']), deleteFavorite);
 

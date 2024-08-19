@@ -10,7 +10,7 @@ router.get('/all', allAccess);
 router.get('/user', authenticateToken(['user', 'admin']), userBoard);
 router.get('/guest', authenticateToken(['guest', 'user', 'admin']), guestBoard);
 router.get('/admin', authenticateToken(['admin']), adminBoard);
-
+//aun no se si se elimina o no guest aquí
 export default router;
 
 
