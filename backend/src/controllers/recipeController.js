@@ -2,7 +2,7 @@
 import Recipe from '../models/recipeModel.js';
 import { validationResult } from 'express-validator';
 
-export const getRecipes = async (req, res) => {
+/*export const getRecipes = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -22,7 +22,25 @@ export const getRecipes = async (req, res) => {
       message: 'Error fetching recipes',
     });
   }
+};*/
+
+export const getRecipes = async (req, res) => {
+  try {
+    const recipes = await Recipe.findAll();
+    res.status(200).json({
+      code: 1,
+      message: 'Recipes List',
+      data: recipes
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      code: -100,
+      message: 'Error fetching recipes',
+    });
+  }
 };
+
 
 export const getRecipeById = async (req, res) => {
   try {

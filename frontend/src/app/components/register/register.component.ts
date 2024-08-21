@@ -111,6 +111,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthResponse } from '../../interfaces/user';
+
 
 @Component({
   selector: 'app-register',
@@ -170,6 +172,42 @@ export class RegisterComponent implements OnInit {
     return control ? control.invalid && (control.dirty || control.touched || this.submitted) : false;
   }
 
+  /* register(): void {
+     this.submitted = true;
+     if (this.registerForm.invalid) {
+       this.errorMessage = 'Please fill out the form correctly.';
+       this.markAllFieldsAsTouched();
+       return;
+     }
+ 
+     //const { fullName, email, password } = this.registerForm.value;
+     const { name, surname, email, password } = this.registerForm.value;
+     //const role = 'user';  // Aquí definimos el rol por defecto
+    // this.authService.register({ fullName, email, password }).subscribe({
+       this.authService.register({ name, surname, email, password,  id_user: 0, role: 'user' }).subscribe({
+       next: () => {
+         this.authService.login({ email, password }).subscribe({
+           next: () => {
+             this.router.navigate(['/recipes']);
+            //sthis.router.navigate(['/']);
+           },
+           error: () => {
+             this.errorMessage = 'Registration successful, but login failed. Please try logging in manually.';
+             this.router.navigate(['/login']);
+           }
+         });
+       },
+       error: (err) => {
+         if (err.status === 400) {
+           this.errorMessage = 'The user already exists. Please try with another email.';
+         } else {
+           this.errorMessage = 'An unknown error occurred. Please try again.';
+         }
+       }
+     });
+   }*/
+
+  //FUNCIONA CON ERRORES DE INTERFACE
   register(): void {
     this.submitted = true;
     if (this.registerForm.invalid) {
@@ -177,22 +215,30 @@ export class RegisterComponent implements OnInit {
       this.markAllFieldsAsTouched();
       return;
     }
+    console.log(this.registerForm.value);
 
-    //const { fullName, email, password } = this.registerForm.value;
     const { name, surname, email, password } = this.registerForm.value;
-    //const role = 'user';  // Aquí definimos el rol por defecto
-   // this.authService.register({ fullName, email, password }).subscribe({
-      this.authService.register({ name, surname, email, password }).subscribe({
-      next: () => {
-        this.authService.login({ email, password }).subscribe({
-          next: () => {
-            this.router.navigate(['/']);
-          },
-          error: () => {
-            this.errorMessage = 'Registration successful, but login failed. Please try logging in manually.';
-            this.router.navigate(['/login']);
-          }
-        });
+
+    this.authService.register({ name, surname, email, password }).subscribe({
+      next: (response: AuthResponse) => {  // Asegurándote de que AuthResponse esté correctamente definido
+        if (response && response.user) {
+          // const { email, password } = response.user;
+          //this.authService.login({ email, password }).subscribe({
+
+        //  const loginData = { email: response.user.email, password: password }; // Utiliza el password del formulario
+          //  this.authService.login(loginData).subscribe({
+          this.authService.login({ email, password }).subscribe({
+            next: () => {
+              this.router.navigate(['/recipes']);
+            },
+            error: () => {
+              this.errorMessage = 'Registration successful, but login failed. Please try logging in manually.';
+              this.router.navigate(['/login']);
+            }
+          });
+        } else {
+          this.errorMessage = 'Registration failed. Please try again.';
+        }
       },
       error: (err) => {
         if (err.status === 400) {
@@ -203,6 +249,8 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
+
+
 
   markAllFieldsAsTouched() {
     Object.values(this.registerForm.controls).forEach(control => {

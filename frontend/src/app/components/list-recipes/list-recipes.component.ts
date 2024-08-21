@@ -45,7 +45,8 @@ export class ListRecipesComponent implements OnInit {
         this.recipes = data;
         this.loading = false;
       },
-      error: () => {
+      error: (error) => {
+        console.error('Error fetching recipes:', error); // Imprime el error en la consola
         this.toastr.error('Error al cargar las recetas', 'Error');
         this.loading = false;
       }

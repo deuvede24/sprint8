@@ -170,7 +170,7 @@ export class AuthService {
   }
   setGuestRole(): void {
     const guestUser: User = {
-      id: 0, // un valor ficticio para el id
+      id_user: 0, // un valor ficticio para el id
       email: 'guest@example.com', // email ficticio
       role: 'guest',
       name: 'Guest',

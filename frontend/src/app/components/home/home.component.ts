@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
 }*/
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service'; // Asegúrate de que la ruta al servicio de autenticación es correcta
-
+import { RouterLink, Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -104,27 +104,43 @@ import { AuthService } from '../../services/auth.service'; // Asegúrate de que 
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     // Inicializar el currentUser si aún no lo está
     if (!this.authService.currentUser && this.authService.isLoggedIn()) {
       this.authService.getUserRole(); // Esto también establece el currentUser
     }
+    console.log('Current user in HomeComponent:', this.authService.currentUser);
   }
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 
-  getFullName(): string {
+  /*getFullName(): string {
     if (this.authService.currentUser) {
-      const name = this.authService.currentUser.name || 'Invitado';
+      const name = this.authService.currentUser.name || '';
       const surname = this.authService.currentUser.surname || '';
       return `${name} ${surname}`.trim();
     }
     return 'Invitado';
-  }
+  }*/
+
+    getFullName(): string {
+      if (this.authService.currentUser) {
+        const name = this.authService.currentUser.name || '';
+        const surname = this.authService.currentUser.surname || '';
+        
+        // Si ambos, nombre y apellido, están vacíos, mostramos "Invitado"
+        if (!name && !surname) {
+          return 'Invitado';
+        }
+        
+        return `${name} ${surname}`.trim();
+      }
+      return 'Invitado';
+    }
 
 
   getUserRole(): string | null {
@@ -133,6 +149,7 @@ export class HomeComponent implements OnInit {
 
   setGuestRole(): void {
     this.authService.setGuestRole();
+    this.router.navigate(['/recipes']); // Redirigir a la lista de recetas o la ruta que decidas
   }
 
   logout(): void {

@@ -70,6 +70,14 @@ export const register = async (req, res) => {
     res.status(200).json({
       code: 1,
       message: 'Usuario registrado correctamente',
+      accessToken: accessToken,  // Incluir el token en la respuesta
+      /*user: {
+        id_user: newUser.id_user,
+        email: newUser.email,
+        name: newUser.name,
+        surname: newUser.surname,
+        roles: newUser.roles
+      }*/
     });
   } catch (error) {
     console.error(error);
@@ -81,7 +89,8 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+//FUNCIONA PERO CONFLICTO CON ROLES; VAMOS A VER
+/*export const login = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -140,7 +149,80 @@ export const login = async (req, res) => {
       error: error
     });
   }
+};*/
+
+
+//VAMOS A PROBAR OTRA COSA PORQUE NO RULA!
+/*export const login = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ where: { email } });
+
+        if (!user || !user.validPassword(password)) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Crear token
+        const token = jwt.sign({ id_user: user.id_user, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Enviar la respuesta
+        res.json({
+            accessToken: token,
+            user: {
+                id_user: user.id_user,
+                email: user.email,
+                role: user.role,
+                name: user.name,
+                surname: user.surname,
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};*/
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+      // Buscar al usuario por email
+      const user = await User.findOne({ where: { email } });
+
+      // Verificar si el usuario existe
+      if (!user) {
+          return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      // Comparar la contraseña ingresada con la almacenada en la base de datos
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      
+      // Si la contraseña no es válida, devolver un error
+      if (!isPasswordValid) {
+          return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      // Si la contraseña es válida, crear un token JWT
+      const token = jwt.sign({ id_user: user.id_user, role: user.roles }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      // Enviar la respuesta con el token y los datos del usuario
+      res.json({
+          accessToken: token,
+          user: {
+              id_user: user.id_user,
+              email: user.email,
+              role: user.roles,
+              name: user.name,
+              surname: user.surname,
+          }
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+  }
 };
+
+
 
 export const forgotPassword = async (req, res) => {
   try {

@@ -13,9 +13,9 @@
 }*/
 
 export interface User {
-  id: number;
+  id_user?: number;
   email: string;
-  role: 'admin' | 'user' | 'guest';
+  role?: 'admin' | 'user' | 'guest';
   name?: string;
   surname?: string;
   password?: string;
@@ -24,11 +24,7 @@ export interface User {
 
 export interface AuthResponse {
   accessToken: string;
-  user: {
-    email: string;
-    id: number;
-    role: 'admin' | 'user' | 'guest';  // Asegúrate de que la respuesta del servidor incluya el rol
-  };
+  user: User
 }
 
 export interface Login {

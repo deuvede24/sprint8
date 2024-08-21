@@ -7,13 +7,14 @@ import { idValidator } from '../validations/genericValidation.js';
 
 const router = Router();
 
-router.get('/', authenticateToken(['user', 'admin']), getRecipes);
+//router.get('/', authenticateToken(['user', 'admin']), getRecipes);
 router.get('/:id', authenticateToken([' user', 'admin']), idValidator, getRecipeById);
 router.post('/', authenticateToken(['user', 'admin']), recipeValidator, addRecipe);
 router.patch('/:id', authenticateToken(['user', 'admin']), idValidator, recipeValidator, updateRecipe);
 router.delete('/:id', authenticateToken(['admin']), idValidator, deleteRecipe);
 
-router.get('/public', getRecipes); // No requiere autenticación
+//router.get('/public', getRecipes); // No requiere autenticación
+router.get('/', getRecipes); // Ahora esta ruta está accesible para todos
 
 
 export default router;

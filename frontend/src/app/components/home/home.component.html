@@ -26,6 +26,7 @@
     }
   </div>-->
 
+  <!--funciona pero falta
   <div class="container mt-4 text-center">
     <h1>Bienvenido a CRUD Recetas</h1>
     @if (!isLoggedIn()) {
@@ -43,7 +44,27 @@
       </p>
       <button class="btn btn-link" (click)="logout()">Cerrar sesión</button>
     }
+  </div>-->
+
+  <div class="container mt-4 text-center">
+    <h1>Bienvenido a CRUD Recetas</h1>
+    @if (!authService.isLoggedIn()) {
+      <p>
+        Para comenzar, por favor <a routerLink="/login">inicia sesión</a>, <a routerLink="/register">regístrate</a>, o 
+        <button class="btn btn-link" (click)="setGuestRole()">entra como invitado</button>.
+      </p>
+    } @else if (getUserRole() === 'guest') {
+      <p>
+        Estás navegando como invitado. <a routerLink="/login">Inicia sesión</a> para tener acceso completo.
+      </p>
+    } @else {
+      <p>
+        ¡Hola, {{ getFullName() }}! Accede a las <a routerLink="/recipes">recetas</a> o administra tu cuenta.
+      </p>
+      <button class="btn btn-link" (click)="logout()">Cerrar sesión</button>
+    }
   </div>
+  
   
   
   
