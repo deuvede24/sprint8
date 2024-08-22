@@ -167,7 +167,7 @@ export class AddEditRecipeComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.id !== 0) {
-      this.getRecipe(this.id);
+      this.getRecipeById(this.id);
     }
   }
 
@@ -175,9 +175,9 @@ export class AddEditRecipeComponent implements OnInit {
     this.router.navigate(['/recipes']);
   }
 
-  getRecipe(id: number) {
+  getRecipeById(id: number) {
     this.loading = true;
-    this.recipeService.getRecipe(id).subscribe({
+    this.recipeService.getRecipeById(id).subscribe({
       next: (data: Recipe) => {
         this.loading = false;
         this.form.setValue({

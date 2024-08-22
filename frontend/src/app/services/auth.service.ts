@@ -122,7 +122,7 @@ export class AuthService {
   }
 
   login(user: Login): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/login`, user).pipe(
+    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/login`, user, { withCredentials: true }).pipe(
       tap((response: AuthResponse) => {
         localStorage.setItem('token', response.accessToken);
         localStorage.setItem('user', JSON.stringify(response.user));

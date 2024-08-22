@@ -13,10 +13,13 @@ const clietURL = process.env.CLIENT_URL;
 
 export const register = async (req, res) => {
   try {
+    console.log("Datos recibidos en el registro:", req.body); // Log de los datos recibidos
+
     const errors = validationResult(req);
 
     // Si hay errores de validación, responde con un estado 400 Bad Request
     if (!errors.isEmpty()) {
+      console.log("Errores de validación:", errors.array()); // Log de los errores de validación
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -25,23 +28,17 @@ export const register = async (req, res) => {
     // Verificar si ya existe un usuario con el mismo correo electrónico
     const existingUser = await User.findOne({ where: { email }});
     if (existingUser) {
+      console.log("El usuario ya existe:", email); // Log si el usuario ya existe
       return res.status(400).json({
         code: -2,
         message: 'Ya existe un usuario con el mismo correo electrónico'
       });
     }
 
-    /* Verificar que el campo roles no esté vacío
-    if (!roles) {
-      return res.status(400).json({
-        code: -100,
-        message: 'Roles field cannot be empty',
-        error: { message: 'Roles field cannot be empty' }
-      });
-    }*/
-
     // Crear un nuevo usuario
     const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
+    console.log("Contraseña hasheada:", hashedPassword); // Log de la contraseña hasheada
+
     const newUser = new User({
       email,
       password: hashedPassword,
@@ -55,8 +52,12 @@ export const register = async (req, res) => {
     });
     await newUser.save();
 
+    console.log("Nuevo usuario creado:", newUser); // Log del nuevo usuario creado
+
     // Generar un token de acceso y lo guardo en un token seguro (httpOnly)
     const accessToken = jwt.sign({ id_user: newUser.id_user, name: newUser.name }, process.env.JWT_SECRET);
+    console.log("Token generado:", accessToken); // Log del token generado
+
     const token = serialize('token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -70,17 +71,17 @@ export const register = async (req, res) => {
     res.status(200).json({
       code: 1,
       message: 'Usuario registrado correctamente',
-      accessToken: accessToken,  // Incluir el token en la respuesta
-      /*user: {
+    //  accessToken: accessToken,  // Incluir el token en la respuesta
+      user: {
         id_user: newUser.id_user,
         email: newUser.email,
         name: newUser.name,
         surname: newUser.surname,
         roles: newUser.roles
-      }*/
+      }
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error durante el registro:", error); // Log del error si algo falla
     res.status(500).json({
       code: -100,
       message: 'Ha ocurrido un error al registrar el usuario',
@@ -88,7 +89,6 @@ export const register = async (req, res) => {
     });
   }
 };
-
 //FUNCIONA PERO CONFLICTO CON ROLES; VAMOS A VER
 /*export const login = async (req, res) => {
   try {
@@ -182,7 +182,8 @@ export const register = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };*/
-export const login = async (req, res) => {
+//PROBLEMA CON LOS TOKEN PEOR POR FINMUESTRA RESPUESTA Y FUNCIONA SALUDO
+/*export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -207,7 +208,7 @@ export const login = async (req, res) => {
 
       // Enviar la respuesta con el token y los datos del usuario
       res.json({
-          accessToken: token,
+         // accessToken: token,
           user: {
               id_user: user.id_user,
               email: user.email,
@@ -220,7 +221,52 @@ export const login = async (req, res) => {
       console.error(error);
       res.status(500).json({ message: 'Server error' });
   }
+};*/
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    // Generar un token JWT
+    const accessToken = jwt.sign({ id_user: user.id_user }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    // Serializar la cookie
+    const token_jwt = serialize('token', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',  // Usa 'lax' si tienes problemas con CORS
+      maxAge: 60 * 60 * 24 * 30,
+      path: '/',
+    });
+
+    // Establecer la cookie en el header de la respuesta
+    res.setHeader('Set-Cookie', token_jwt);
+
+    // Responder con la información del usuario, pero no el token
+    res.status(200).json({
+      code: 1,
+      message: 'Login successful',
+      user: {
+        id_user: user.id_user,
+        email: user.email,
+        name: user.name,
+        surname: user.surname,
+        roles: user.roles,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
+
 
 
 
@@ -335,7 +381,7 @@ export const changePassword = async (req, res) => {
     const token_jwt = serialize('token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
     });

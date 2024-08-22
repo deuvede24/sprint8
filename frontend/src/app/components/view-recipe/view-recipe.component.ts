@@ -37,13 +37,13 @@ export class ViewRecipeComponent implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.getRecipe(id);
+      this.getRecipeById(id);
     }
   }
 
-  getRecipe(id: number) {
+  getRecipeById(id: number) {
     this.loading = true;
-    this.recipeService.getRecipe(id).subscribe({
+    this.recipeService.getRecipeById(id).subscribe({
       next: (data: Recipe) => {
         this.recipe = data;
         this.loading = false;

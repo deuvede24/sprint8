@@ -11,14 +11,14 @@ import { Recipe } from '../interfaces/recipe.interface';
 export class RecipeService {
   private apiUrl = `${environment.apiUrl}/recipes`;  // Aquí se usará la URL del entorno
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getRecipes(): Observable<Recipe[]> {
     return this.http.get<Recipe[]>(this.apiUrl);
   }
 
-  getRecipe(id: number): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
+  getRecipeById(id: number): Observable<Recipe> {
+  return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   }
 
   addRecipe(recipe: Recipe): Observable<Recipe> {
@@ -35,5 +35,7 @@ export class RecipeService {
   saveRecipe(recipe: Recipe) {
     return this.http.post(`${this.apiUrl}/recipes`, recipe);
   }
-  
+
+
+
 }
