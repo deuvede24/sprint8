@@ -36,7 +36,7 @@ await insertInitialData();
 // Configurar rutas
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
-app.use("/recipes", recipeRoutes); // Asegúrate de que esta línea esté correcta
+app.use('/recipes', recipeRoutes); // Asegúrate de que esta línea esté correcta
 app.use("/test", testRoutes); // Si esto es necesario
 app.use("/comments", commentRoutes);
 app.use("/favorites", favoriteRoutes);

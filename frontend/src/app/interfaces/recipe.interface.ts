@@ -1,5 +1,5 @@
 export interface Recipe {
-    id: number;
+    id_recipe: number;
     title: string;
     description: string;
     steps: string;
@@ -7,5 +7,6 @@ export interface Recipe {
     is_premium: boolean;
     created_at?: string;
     updated_at?: string;
+    user_id: number;
   }
   //

@@ -44,14 +44,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (recipes.length > 0) {
-                        @for (recipe of recipes; track recipe.id) {
+                    @if (recipeList.length > 0) {
+                        @for (recipe of recipeList; track recipe.id_recipe) {
                             <tr>
                                 <td>{{ recipe.title }}</td>
                                 <td>{{ recipe.description }}</td>
                                 <td>
-                                    <button class="btn btn-info btn-sm" (click)="editRecipe(recipe.id)">Editar</button>
-                                    <button class="btn btn-danger btn-sm ms-2" (click)="deleteRecipe(recipe.id)">Eliminar</button>
+                                    <button class="btn btn-info btn-sm" (click)="editRecipe(recipe.id_recipe)">Editar</button>
+                                    <button class="btn btn-danger btn-sm ms-2" (click)="deleteRecipe(recipe.id_recipe)">Eliminar</button>
                                 </td>
                             </tr>
                         }

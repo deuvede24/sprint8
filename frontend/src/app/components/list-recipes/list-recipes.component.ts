@@ -16,6 +16,8 @@ import { RouterModule, Router } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../interfaces/recipe.interface';
 import { ToastrService } from 'ngx-toastr';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @Component({
   selector: 'app-list-recipes',
@@ -25,7 +27,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./list-recipes.component.scss']
 })
 export class ListRecipesComponent implements OnInit {
-  recipes: Recipe[] = [];
+  recipeList: Recipe[] = [];
   loading: boolean = false;
 
   constructor(
@@ -36,14 +38,25 @@ export class ListRecipesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRecipes();
+  /* this.recipeList = [
+    { id_recipe: 1, title: 'Test Recipe 1', description: 'Description 1', steps: '', category: '', is_premium: false, user_id: 1 },
+    { id_recipe: 2, title: 'Test Recipe 2', description: 'Description 2', steps: '', category: '', is_premium: false, user_id: 2 }
+  ];*/
   }
 
-  getRecipes() {
+ /* getRecipes() {
     this.loading = true;
+    console.log(this.recipeList.length)
     this.recipeService.getRecipes().subscribe({
+      
       next: (data: Recipe[]) => {
-        this.recipes = data;
+        console.log(this.recipeList.length)
+        console.log('Recetas obtenidas:',data); 
+        this.recipeList = data;
         this.loading = false;
+        console.log(this.recipeList.length)
+        console.log('Contenido de this.recipes:', this.recipeList.length);
+        console.log(this.recipeList.length)
       },
       error: (error) => {
         console.error('Error fetching recipes:', error); // Imprime el error en la consola
@@ -51,7 +64,25 @@ export class ListRecipesComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
+  }*/
+
+    getRecipes() {
+      this.loading = true;
+      this.recipeService.getRecipes().subscribe({
+        next: (response: { code: number; message: string; data: Recipe[] }) => {
+          console.log('Recetas obtenidas:', response.data); 
+          this.recipeList = response.data;
+          this.loading = false;
+          console.log('Contenido de this.recipeList:', this.recipeList);
+        },
+        error: (error) => {
+          console.error('Error fetching recipes:', error);
+          this.toastr.error('Error al cargar las recetas', 'Error');
+          this.loading = false;
+        }
+      });
+    }
+    
 
   editRecipe(id: number) {
     this.router.navigate([`/recipes/edit/${id}`]);
