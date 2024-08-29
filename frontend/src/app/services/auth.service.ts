@@ -108,6 +108,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User, Login, AuthResponse } from '../interfaces/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -115,11 +116,30 @@ import { User, Login, AuthResponse } from '../interfaces/user';
 export class AuthService {
   private apiUrl = 'http://localhost:3000';
   private httpClient = inject(HttpClient);
+  private router: Router;
   currentUser: User | null = null;
 
-  register(user: User): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user);
+  constructor(router: Router) { // Inyecta Router en el constructor
+    this.router = router; // Asigna el valor a la propiedad router
   }
+
+
+ /* register(user: User): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user);
+  }*/
+
+    register(user: User): Observable<AuthResponse> {
+      return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user).pipe(
+        tap((response: AuthResponse) => {
+          localStorage.setItem('token', response.accessToken);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          this.currentUser = response.user;
+  
+          // Redirigir al home después del registro exitoso
+          this.router.navigate(['/']);
+        })
+      );
+    }
 
   login(user: Login): Observable<AuthResponse> {
     return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/login`, user, { withCredentials: true }).pipe(

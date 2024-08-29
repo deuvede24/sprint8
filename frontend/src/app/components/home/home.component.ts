@@ -147,6 +147,14 @@ export class HomeComponent implements OnInit {
     return this.authService.getUserRole();
   }
 
+  goToRecipes(): void {
+    this.router.navigate(['/recipes']);
+  }
+
+  goToAccount(): void {
+    this.router.navigate(['/account']); // Asumiendo que tienes una ruta '/account'
+  }
+
   setGuestRole(): void {
     this.authService.setGuestRole();
     this.router.navigate(['/recipes']); // Redirigir a la lista de recetas o la ruta que decidas
@@ -154,9 +162,20 @@ export class HomeComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    window.location.reload(); // Recargar la página para restablecer el estado
+    //window.location.reload(); // Recargar la página para restablecer el estado
+    this.router.navigate(['/']); // Redirigir a la página de inicio
+  }
+
+  navigateToLogin(): void {
+    this.router.navigate(['/login']);
+  }
+
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
   }
 }
+
+
 
 
 

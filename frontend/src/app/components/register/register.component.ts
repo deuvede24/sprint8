@@ -229,7 +229,8 @@ export class RegisterComponent implements OnInit {
           //  this.authService.login(loginData).subscribe({
           this.authService.login({ email, password }).subscribe({
             next: () => {
-              this.router.navigate(['/recipes']);
+              //this.router.navigate(['/recipes']);
+              this.router.navigate(['/']);
             },
             error: () => {
               this.errorMessage = 'Registration successful, but login failed. Please try logging in manually.';

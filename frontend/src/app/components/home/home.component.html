@@ -8,7 +8,7 @@
     </div>
   </div>-->
 
- <!-- <div class="container mt-4 text-center">
+<!-- <div class="container mt-4 text-center">
     <h1>Bienvenido a CRUD Recetas</h1>
     @if (!isLoggedIn()) {
       <p>
@@ -26,7 +26,7 @@
     }
   </div>-->
 
-  <!--funciona pero falta
+<!--funciona pero falta
   <div class="container mt-4 text-center">
     <h1>Bienvenido a CRUD Recetas</h1>
     @if (!isLoggedIn()) {
@@ -46,7 +46,7 @@
     }
   </div>-->
 
-  <div class="container mt-4 text-center">
+<!--FUNCIONA PERO USER NO VA A NINGNÚN LADO<div class="container mt-4 text-center">
     <h1>Bienvenido a CRUD Recetas</h1>
     @if (!authService.isLoggedIn()) {
       <p>
@@ -63,9 +63,67 @@
       </p>
       <button class="btn btn-link" (click)="logout()">Cerrar sesión</button>
     }
+  </div>-->
+
+<!--este sí ufnciona<div class="container mt-4 text-center">
+    <h1>Bienvenido a CRUD Recetas</h1>
+  
+    @if (!authService.isLoggedIn()) {
+      <p>
+        Para comenzar, por favor <a routerLink="/login">inicia sesión</a>, <a routerLink="/register">regístrate</a>, o 
+        <button class="btn btn-link" (click)="setGuestRole()">entra como invitado</button>.
+      </p>
+    } @else if (getUserRole() === 'guest') {
+      <p>
+        Estás navegando como invitado. <a routerLink="/login">Inicia sesión</a> para tener acceso completo.
+      </p>
+    } @else {
+      <p>
+        ¡Hola, {{ getFullName() }}! ¿Qué te gustaría hacer a continuación?
+      </p>
+      
+
+      <button class="btn btn-primary" (click)="goToRecipes()">Ver Recetas</button>
+  
+      
+      <button class="btn btn-secondary" (click)="goToAccount()">Administrar Cuenta</button>
+  
+    
+      <button class="btn btn-danger" (click)="logout()">Cerrar sesión</button>
+    }
+  </div>-->
+
+<div class="container mt-4 text-center">
+  <h1>Bienvenido a CRUD Recetas</h1>
+
+  @if (!authService.isLoggedIn()) {
+  <p class="lead mt-3">
+    Para comenzar, elige una opción:
+  </p>
+  <div class="mt-4">
+    <button class="btn btn-primary mx-2" (click)="navigateToLogin()">Inicia sesión</button>
+    <button class="btn btn-secondary mx-2" (click)="navigateToRegister()">Regístrate</button>
   </div>
-  
-  
-  
-  
-  
+
+  <div class="mt-3">
+    <button class="btn btn-link" (click)="setGuestRole()">Entra como invitado</button>
+  </div>
+  } @else if (getUserRole() === 'guest') {
+  <p class="lead mt-3">
+    Estás navegando como invitado.
+  </p>
+  <p>
+    <button class="btn btn-primary mx-2" (click)="navigateToLogin()">Inicia sesión</button>
+    para tener acceso completo.
+  </p>
+  } @else {
+  <p class="lead mt-3">
+    ¡Hola, {{ getFullName() }}! ¿Qué te gustaría hacer a continuación?
+  </p>
+  <div class="mt-4">
+    <button class="btn btn-warning mx-2" (click)="goToRecipes()">Ver Recetas</button>
+    <button class="btn btn-secondary mx-2" (click)="goToAccount()">Administrar Cuenta</button>
+    <button class="btn btn-danger mx-2" (click)="logout()">Cerrar sesión</button>
+  </div>
+  }
+</div>
