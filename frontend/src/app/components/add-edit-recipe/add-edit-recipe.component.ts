@@ -130,6 +130,7 @@ import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../interfaces/recipe.interface';
 import { ActivatedRoute } from '@angular/router';
 import { ProgressBarComponent } from '../../shared/progress-bar/progress-bar.component';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -143,17 +144,16 @@ export class AddEditRecipeComponent implements OnInit {
   form: FormGroup;
   loading = false;
   id: number;
-  
+
 
   constructor(
     private fb: FormBuilder,
     private recipeService: RecipeService,
     private router: Router,
     private toastr: ToastrService,
-    private aRouter: ActivatedRoute
-  ) 
-  
-  {
+    private aRouter: ActivatedRoute,
+    public authService: AuthService
+  ) {
     this.form = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -166,6 +166,12 @@ export class AddEditRecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.authService.isAdmin()) { // Verifica si el usuario es admin
+      this.toastr.error('No tienes permisos para editar recetas', 'Error');
+      this.router.navigate(['/recipes']);
+      return;
+    }
+
     if (this.id !== 0) {
       this.getRecipeById(this.id);
     }

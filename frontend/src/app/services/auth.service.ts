@@ -124,22 +124,22 @@ export class AuthService {
   }
 
 
- /* register(user: User): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user);
-  }*/
+  /* register(user: User): Observable<AuthResponse> {
+     return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user);
+   }*/
 
-    register(user: User): Observable<AuthResponse> {
-      return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user).pipe(
-        tap((response: AuthResponse) => {
-          localStorage.setItem('token', response.accessToken);
-          localStorage.setItem('user', JSON.stringify(response.user));
-          this.currentUser = response.user;
-  
-          // Redirigir al home después del registro exitoso
-          this.router.navigate(['/']);
-        })
-      );
-    }
+  register(user: User): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user).pipe(
+      tap((response: AuthResponse) => {
+        localStorage.setItem('token', response.accessToken);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        this.currentUser = response.user;
+
+        // Redirigir al home después del registro exitoso
+        this.router.navigate(['/']);
+      })
+    );
+  }
 
   login(user: Login): Observable<AuthResponse> {
     return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/login`, user, { withCredentials: true }).pipe(
@@ -173,7 +173,10 @@ export class AuthService {
       }
     }
   }
-
+  isAdmin(): boolean {
+    const role = this.getUserRole();
+    return role === 'admin';
+  }
 
   getFullName(): string {
     if (this.currentUser) {

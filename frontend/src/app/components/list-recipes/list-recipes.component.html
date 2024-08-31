@@ -40,6 +40,7 @@
                     <tr>
                         <th scope="col">Título</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">Pasos</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -49,6 +50,7 @@
                             <tr>
                                 <td>{{ recipe.title }}</td>
                                 <td>{{ recipe.description }}</td>
+                                <td>{{ recipe.steps }}</td>
                                 <td>
                                     <button class="btn btn-info btn-sm" (click)="editRecipe(recipe.id_recipe)">Editar</button>
                                     <button class="btn btn-danger btn-sm ms-2" (click)="deleteRecipe(recipe.id_recipe)">Eliminar</button>

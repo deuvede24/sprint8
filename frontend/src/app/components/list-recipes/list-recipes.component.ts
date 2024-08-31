@@ -10,6 +10,7 @@
 export class ListRecipesComponent {
 
 }*/
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -17,6 +18,7 @@ import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../interfaces/recipe.interface';
 import { ToastrService } from 'ngx-toastr';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotificationService } from '../../services/notification.service';
 
 
 @Component({
@@ -33,6 +35,7 @@ export class ListRecipesComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private toastr: ToastrService,
+    private notificationService: NotificationService, 
     private router: Router
   ) {}
 
@@ -97,7 +100,8 @@ export class ListRecipesComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.toastr.error('Error al eliminar la receta', 'Error');
+        //this.toastr.error('Error al eliminar la receta', 'Error');
+        this.notificationService.showError('Error al eliminar la receta.');
         this.loading = false;
       }
     });

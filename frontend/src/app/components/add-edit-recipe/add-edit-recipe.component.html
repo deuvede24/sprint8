@@ -115,7 +115,7 @@
   </div>
 </div>-->
 
-<div class="container mt-4">
+<!--<div class="container mt-4">
     <div class="card border-primary mb-3">
       <div class="card-header">
         {{ id === 0 ? 'Agregar Receta' : 'Editar Receta' }}
@@ -167,8 +167,80 @@
         </form>
       </div>
     </div>
-  </div>
+  </div>-->
   
 
 
 
+  <div class="container mt-4">
+    <div class="card border-primary mb-3">
+      <div class="card-header">
+        @if (id === 0) {
+          Agregar Receta
+        } @else {
+          Editar Receta
+        }
+      </div>
+      <div class="card-body text-primary">
+        <form [formGroup]="form" (ngSubmit)="saveRecipe()">
+          <div class="form-group">
+            <label for="title">Título</label>
+            <input formControlName="title" type="text" id="title" class="form-control" placeholder="Ingrese título">
+            @if (form.get('title')?.hasError('required') && form.get('title')?.touched) {
+              <span class="text-danger">
+                El campo título es <strong>requerido</strong>
+              </span>
+            }
+          </div>
+  
+          <div class="form-group mt-3">
+            <label for="description">Descripción</label>
+            <input formControlName="description" type="text" id="description" class="form-control" placeholder="Ingrese descripción">
+            @if (form.get('description')?.hasError('required') && form.get('description')?.touched) {
+              <span class="text-danger">
+                El campo descripción es <strong>requerido</strong>
+              </span>
+            }
+          </div>
+  
+          <div class="form-group mt-3">
+            <label for="steps">Pasos</label>
+            <textarea formControlName="steps" id="steps" class="form-control" placeholder="Ingrese pasos"></textarea>
+            @if (form.get('steps')?.hasError('required') && form.get('steps')?.touched) {
+              <span class="text-danger">
+                El campo pasos es <strong>requerido</strong>
+              </span>
+            }
+          </div>
+  
+          <div class="form-group mt-3">
+            <label for="category">Categoría</label>
+            <input formControlName="category" type="text" id="category" class="form-control" placeholder="Ingrese categoría">
+            @if (form.get('category')?.hasError('required') && form.get('category')?.touched) {
+              <span class="text-danger">
+                El campo categoría es <strong>requerido</strong>
+              </span>
+            }
+          </div>
+  
+          <div class="form-group mt-3">
+            <label for="is_premium">Premium</label>
+            <input formControlName="is_premium" type="checkbox" id="is_premium" class="form-check-input">
+            <label for="is_premium" class="form-check-label">Es Premium</label>
+          </div>
+
+          @if (authService.isAdmin()) {
+            <div class="form-group mt-3">
+              <label for="additional-field">Campo Adicional (Visible solo para Admin)</label>
+              <input formControlName="additionalField" type="text" id="additional-field" class="form-control" placeholder="Ingrese información adicional">
+            </div>
+          }
+  
+          <div class="mt-4 d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
