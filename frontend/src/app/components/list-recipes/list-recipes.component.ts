@@ -19,6 +19,7 @@ import { Recipe } from '../../interfaces/recipe.interface';
 import { ToastrService } from 'ngx-toastr';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationService } from '../../services/notification.service';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class ListRecipesComponent implements OnInit {
     private recipeService: RecipeService,
     private toastr: ToastrService,
     private notificationService: NotificationService, 
-    private router: Router
+    private router: Router,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +94,11 @@ export class ListRecipesComponent implements OnInit {
   }
 
   deleteRecipe(id: number) {
+    const userRole = this.authService.getUserRole();
+    if (userRole !== 'admin') {
+      this.notificationService.showError('No tienes permisos para eliminar recetas.');
+      return;
+    }
     this.loading = true;
     this.recipeService.deleteRecipe(id).subscribe({
       next: () => {

@@ -155,8 +155,9 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  getUserRole(): string | null {
+  /*getUserRole(): string | null {
     if (this.currentUser) {
+      console.log('User role in getUserRole:', this.currentUser.role);
       return this.currentUser.role || null;
     } else {
       const userString = localStorage.getItem('user');
@@ -166,15 +167,40 @@ export class AuthService {
       try {
         const user = JSON.parse(userString);
         this.currentUser = user; // Cargamos el usuario desde localStorage si no está cargado aún
+        console.log('User role from localStorage:', user.role); // Verifica que el rol desde localStorage sea 'admin'
+
         return user.role || null;
       } catch (e) {
         console.error('Error parsing user from localStorage', e);
         return null;
       }
     }
+  }*/
+    getUserRole(): string | null {
+     if (this.currentUser && this.currentUser.role) {
+          console.log('User role in getUserRole:', this.currentUser.role);
+          return this.currentUser.role;  // Asegúrate de retornar el rol correcto
+      } else {
+          const userString = localStorage.getItem('user');
+          if (!userString || userString === 'undefined') {
+              return null;
+          }
+          try {
+              const user = JSON.parse(userString);
+              this.currentUser = user;
+              console.log('User role from localStorage:', user.role); // Verifica que el rol desde localStorage sea 'admin'
+              return user.role;
+          } catch (e) {
+              console.error('Error parsing user from localStorage', e);
+              return null;
+          }
+      }
   }
+  
+
   isAdmin(): boolean {
     const role = this.getUserRole();
+    console.log('User role:', role);
     return role === 'admin';
   }
 

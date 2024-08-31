@@ -166,6 +166,7 @@ export class AddEditRecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('isAdmin:', this.authService.isAdmin());
     if (!this.authService.isAdmin()) { // Verifica si el usuario es admin
       this.toastr.error('No tienes permisos para editar recetas', 'Error');
       this.router.navigate(['/recipes']);
