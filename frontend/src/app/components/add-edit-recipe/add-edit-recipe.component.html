@@ -229,12 +229,12 @@
             <label for="is_premium" class="form-check-label">Es Premium</label>
           </div>
 
-          @if (authService.isAdmin()) {
+        <!--- @if (authService.isAdmin()) {
             <div class="form-group mt-3">
               <label for="additional-field">Campo Adicional (Visible solo para Admin)</label>
               <input formControlName="additionalField" type="text" id="additional-field" class="form-control" placeholder="Ingrese información adicional">
             </div>
-          }
+          }-->
   
           <div class="mt-4 d-flex justify-content-between">
             <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>

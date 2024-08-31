@@ -1,26 +1,11 @@
-/*import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-list-recipes',
-  standalone: true,
-  imports: [],
-  templateUrl: './list-recipes.component.html',
-  styleUrl: './list-recipes.component.scss'
-})
-export class ListRecipesComponent {
-
-}*/
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../interfaces/recipe.interface';
 import { ToastrService } from 'ngx-toastr';
-//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationService } from '../../services/notification.service';
 import { AuthService } from '../../services/auth.service';
-
 
 @Component({
   selector: 'app-list-recipes',
@@ -43,76 +28,48 @@ export class ListRecipesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRecipes();
-  /* this.recipeList = [
-    { id_recipe: 1, title: 'Test Recipe 1', description: 'Description 1', steps: '', category: '', is_premium: false, user_id: 1 },
-    { id_recipe: 2, title: 'Test Recipe 2', description: 'Description 2', steps: '', category: '', is_premium: false, user_id: 2 }
-  ];*/
   }
 
- /* getRecipes() {
+  getRecipes() {
     this.loading = true;
-    console.log(this.recipeList.length)
     this.recipeService.getRecipes().subscribe({
-      
-      next: (data: Recipe[]) => {
-        console.log(this.recipeList.length)
-        console.log('Recetas obtenidas:',data); 
-        this.recipeList = data;
+      next: (response: { code: number; message: string; data: Recipe[] }) => {
+        this.recipeList = response.data;
         this.loading = false;
-        console.log(this.recipeList.length)
-        console.log('Contenido de this.recipes:', this.recipeList.length);
-        console.log(this.recipeList.length)
       },
-      error: (error) => {
-        console.error('Error fetching recipes:', error); // Imprime el error en la consola
+      error: () => {
         this.toastr.error('Error al cargar las recetas', 'Error');
         this.loading = false;
       }
     });
-  }*/
-
-    getRecipes() {
-      this.loading = true;
-      this.recipeService.getRecipes().subscribe({
-        next: (response: { code: number; message: string; data: Recipe[] }) => {
-          console.log('Recetas obtenidas:', response.data); 
-          this.recipeList = response.data;
-          this.loading = false;
-          console.log('Contenido de this.recipeList:', this.recipeList);
-        },
-        error: (error) => {
-          console.error('Error fetching recipes:', error);
-          this.toastr.error('Error al cargar las recetas', 'Error');
-          this.loading = false;
-        }
-      });
-    }
-    
+  }
 
   editRecipe(id: number) {
     this.router.navigate([`/recipes/edit/${id}`]);
   }
 
   deleteRecipe(id: number) {
-    const userRole = this.authService.getUserRole();
-    if (userRole !== 'admin') {
-      this.notificationService.showError('No tienes permisos para eliminar recetas.');
-      return;
+    // Verificamos si el usuario es un invitado
+    const currentUser = this.authService.getUser();
+    const userRole = currentUser?.role;
+    if (userRole === 'guest') {
+        this.notificationService.showError('Los usuarios invitados no pueden eliminar recetas.');
+        return;
     }
+
+    // Si es un usuario registrado, permitir la eliminación
     this.loading = true;
     this.recipeService.deleteRecipe(id).subscribe({
-      next: () => {
-        this.getRecipes(); // Recargar la lista después de eliminar
-        this.toastr.success('La receta fue eliminada con éxito', 'Receta Eliminada');
-        this.loading = false;
-      },
-      error: () => {
-        //this.toastr.error('Error al eliminar la receta', 'Error');
-        this.notificationService.showError('Error al eliminar la receta.');
-        this.loading = false;
-      }
+        next: () => {
+            this.getRecipes(); // Recargar la lista después de eliminar
+            this.toastr.success('La receta fue eliminada con éxito', 'Receta Eliminada');
+            this.loading = false;
+        },
+        error: () => {
+            this.notificationService.showError('Error al eliminar la receta.');
+            this.loading = false;
+        }
     });
-  }
 }
-
+}
 

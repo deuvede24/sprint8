@@ -106,10 +106,10 @@ export class HomeComponent implements OnInit {
 
   constructor(public authService: AuthService, private router: Router) { }
 
+
   ngOnInit(): void {
-    // Inicializar el currentUser si aún no lo está
     if (!this.authService.currentUser && this.authService.isLoggedIn()) {
-      this.authService.getUserRole(); // Esto también establece el currentUser
+      this.authService.getUser(); // Esto también establece el currentUser
     }
     console.log('Current user in HomeComponent:', this.authService.currentUser);
   }
@@ -142,10 +142,6 @@ export class HomeComponent implements OnInit {
       return 'Invitado';
     }
 
-
-  getUserRole(): string | null {
-    return this.authService.getUserRole();
-  }
 
   goToRecipes(): void {
     this.router.navigate(['/recipes']);

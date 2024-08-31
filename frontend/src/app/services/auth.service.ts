@@ -1,108 +1,3 @@
-/*import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { User, Login, AuthResponse } from '../interfaces/user';
-
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthService {
-  private apiUrl = 'http://localhost:3000';
-  private httpClient = inject(HttpClient);
-
-  register(user: User): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/register`, user);
-  }
-
-  login(user: Login): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/login`, user).pipe(
-      tap((response: AuthResponse) => {
-        localStorage.setItem('token', response.accessToken);
-        localStorage.setItem('user', JSON.stringify(response.user));
-      })
-    );
-  }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  }
-
-  getUserRole(): string | null {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user.roles || null;
-  }
-
-  logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-  }
-}
-*/
-
-/*
-FUNCIONA OK
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { User, Login, AuthResponse } from '../interfaces/user';
-
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthService {
-  private apiUrl = 'http://localhost:3000';
-  private httpClient = inject(HttpClient);
-
-  register(user: User): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user);
-  }
-
-  login(user: Login): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/login`, user).pipe(
-      tap((response: AuthResponse) => {
-        localStorage.setItem('token', response.accessToken);
-        localStorage.setItem('user', JSON.stringify(response.user));
-      })
-    );
-  }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  }
-
-  getUserRole(): string | null {
-   //const user = JSON.parse(localStorage.getItem('user') || '{}');
-    //return user.role || null; // Asegurarse de que la clave sea 'role'
-    const userString = localStorage.getItem('user');
-  
-    if (!userString|| userString === 'undefined'){
-      return null;
-    }
-    try {
-      const user = JSON.parse(userString);
-      return user.role || null;
-    } catch (e) {
-      console.error('Error parsing user from localStorage', e);
-      return null;
-    }
-  }
-
-  logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-  }
-
-  setGuestRole(): void {
-    const guestUser = {
-      role: 'guest',
-    };
-    localStorage.setItem('user', JSON.stringify(guestUser));
-  }
-  
-}*/
-
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -119,14 +14,9 @@ export class AuthService {
   private router: Router;
   currentUser: User | null = null;
 
-  constructor(router: Router) { // Inyecta Router en el constructor
-    this.router = router; // Asigna el valor a la propiedad router
+  constructor(router: Router) {
+    this.router = router;
   }
-
-
-  /* register(user: User): Observable<AuthResponse> {
-     return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user);
-   }*/
 
   register(user: User): Observable<AuthResponse> {
     return this.httpClient.post<AuthResponse>(`${this.apiUrl}/auth/register`, user).pipe(
@@ -134,8 +24,6 @@ export class AuthService {
         localStorage.setItem('token', response.accessToken);
         localStorage.setItem('user', JSON.stringify(response.user));
         this.currentUser = response.user;
-
-        // Redirigir al home después del registro exitoso
         this.router.navigate(['/']);
       })
     );
@@ -146,7 +34,7 @@ export class AuthService {
       tap((response: AuthResponse) => {
         localStorage.setItem('token', response.accessToken);
         localStorage.setItem('user', JSON.stringify(response.user));
-        this.currentUser = response.user; // Establecemos el usuario actual
+        this.currentUser = response.user;
       })
     );
   }
@@ -155,54 +43,29 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  /*getUserRole(): string | null {
+  // Simplificar para que todos los usuarios sean administradores.
+  isAdmin(): boolean {
+    return true;
+  }
+
+  getUser(): User | null {
     if (this.currentUser) {
-      console.log('User role in getUserRole:', this.currentUser.role);
-      return this.currentUser.role || null;
+      return this.currentUser;
     } else {
       const userString = localStorage.getItem('user');
-      if (!userString || userString === 'undefined') {
-        return null;
+      if (userString) {
+        try {
+          const user = JSON.parse(userString);
+          this.currentUser = user;
+          return user;
+        } catch (e) {
+          return null;
+        }
       }
-      try {
-        const user = JSON.parse(userString);
-        this.currentUser = user; // Cargamos el usuario desde localStorage si no está cargado aún
-        console.log('User role from localStorage:', user.role); // Verifica que el rol desde localStorage sea 'admin'
-
-        return user.role || null;
-      } catch (e) {
-        console.error('Error parsing user from localStorage', e);
-        return null;
-      }
+      return null;
     }
-  }*/
-    getUserRole(): string | null {
-     if (this.currentUser && this.currentUser.role) {
-          console.log('User role in getUserRole:', this.currentUser.role);
-          return this.currentUser.role;  // Asegúrate de retornar el rol correcto
-      } else {
-          const userString = localStorage.getItem('user');
-          if (!userString || userString === 'undefined') {
-              return null;
-          }
-          try {
-              const user = JSON.parse(userString);
-              this.currentUser = user;
-              console.log('User role from localStorage:', user.role); // Verifica que el rol desde localStorage sea 'admin'
-              return user.role;
-          } catch (e) {
-              console.error('Error parsing user from localStorage', e);
-              return null;
-          }
-      }
   }
-  
 
-  isAdmin(): boolean {
-    const role = this.getUserRole();
-    console.log('User role:', role);
-    return role === 'admin';
-  }
 
   getFullName(): string {
     if (this.currentUser) {
@@ -212,15 +75,17 @@ export class AuthService {
     }
     return 'Invitado';
   }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    this.currentUser = null; // Reseteamos el usuario actual
+    this.currentUser = null;
   }
+
   setGuestRole(): void {
     const guestUser: User = {
-      id_user: 0, // un valor ficticio para el id
-      email: 'guest@example.com', // email ficticio
+      id_user: 0,
+      email: 'guest@example.com',
       role: 'guest',
       name: 'Guest',
       surname: 'User'
