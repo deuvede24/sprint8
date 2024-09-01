@@ -9,9 +9,9 @@ const Recipe = sequelize.define('Recipe', {
     primaryKey: true,
     autoIncrement: true,
   },
-  user_id: {
+ /* user_id: {
     type: DataTypes.INTEGER(8).UNSIGNED
-  },
+  },*/
   title: {
     type: DataTypes.STRING(100),
     allowNull: false
@@ -41,7 +41,7 @@ const Recipe = sequelize.define('Recipe', {
   createdAt: 'created_at'
 });
 
-User.hasMany(Recipe, { foreignKey: 'user_id' });
-Recipe.belongsTo(User, { foreignKey: 'user_id' });
+//User.hasMany(Recipe, { foreignKey: 'user_id' });
+//Recipe.belongsTo(User, { foreignKey: 'user_id' });
 
 export default Recipe;

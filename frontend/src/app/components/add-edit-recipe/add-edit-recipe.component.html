@@ -215,7 +215,11 @@
   
           <div class="form-group mt-3">
             <label for="category">Categoría</label>
-            <input formControlName="category" type="text" id="category" class="form-control" placeholder="Ingrese categoría">
+            <select formControlName="category" id="category" class="form-control">
+              <option value="traditional">Traditional</option>
+              <option value="vegan">Vegan</option>
+              <option value="vegetarian">Vegetarian</option>
+            </select>
             @if (form.get('category')?.hasError('required') && form.get('category')?.touched) {
               <span class="text-danger">
                 El campo categoría es <strong>requerido</strong>
@@ -224,17 +228,11 @@
           </div>
   
           <div class="form-group mt-3">
-            <label for="is_premium">Premium</label>
-            <input formControlName="is_premium" type="checkbox" id="is_premium" class="form-check-input">
-            <label for="is_premium" class="form-check-label">Es Premium</label>
-          </div>
-
-        <!--- @if (authService.isAdmin()) {
-            <div class="form-group mt-3">
-              <label for="additional-field">Campo Adicional (Visible solo para Admin)</label>
-              <input formControlName="additionalField" type="text" id="additional-field" class="form-control" placeholder="Ingrese información adicional">
+            <div class="form-check">
+              <input formControlName="is_premium" type="checkbox" id="is_premium" class="form-check-input">
+              <label for="is_premium" class="form-check-label">Es Premium</label>
             </div>
-          }-->
+          </div>
   
           <div class="mt-4 d-flex justify-content-between">
             <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
@@ -244,3 +242,4 @@
       </div>
     </div>
   </div>
+  
