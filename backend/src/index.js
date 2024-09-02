@@ -10,6 +10,8 @@ import commentRoutes from "./routes/commentRoutes.js";
 import favoriteRoutes from "./routes/favoriteRoutes.js";
 import ingredientRoutes from "./routes/ingredientRoutes.js";
 import recipeIngredientRoutes from "./routes/recipeIngredientRoutes.js";
+//import mapLocationRoutes from './routes/mapRoutes.js'
+import mapRoutes from './routes/mapRoutes.js';
 
 import { testConnection } from "./db.js";
 import insertInitialData from "./start_data.js";
@@ -42,6 +44,9 @@ app.use("/comments", commentRoutes);
 app.use("/favorites", favoriteRoutes);
 app.use("/ingredients", ingredientRoutes);
 app.use("/recipe-ingredients", recipeIngredientRoutes);
+//app.use('/locations', mapLocationRoutes);
+app.use('/map', mapRoutes);
+
 
 // Iniciar el servidor
 const PORT = 3000;
