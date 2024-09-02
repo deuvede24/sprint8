@@ -67,6 +67,7 @@ export class RecipeService {
   addRecipe(recipe: Recipe): Observable<Recipe> {
     return this.http.post<Recipe>(this.apiUrl, recipe, { withCredentials: true });
   }
+  
 
   updateRecipe(id: number, recipe: Recipe): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, recipe, { withCredentials: true });
@@ -76,7 +77,12 @@ export class RecipeService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  saveRecipe(recipe: Recipe): Observable<Recipe> {
+  /*saveRecipe(recipe: Recipe): Observable<Recipe> {
     return this.http.post<Recipe>(`${this.apiUrl}/recipes`, recipe, { withCredentials: true });
+  }*/
+
+  saveRecipe(recipe: Recipe): Observable<Recipe> {
+    // Esto está redundante y causará una URL incorrecta
+    return this.http.post<Recipe>(this.apiUrl, recipe, { withCredentials: true });
   }
 }

@@ -6,6 +6,8 @@ import { Recipe } from '../../interfaces/recipe.interface';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../services/notification.service';
 import { AuthService } from '../../services/auth.service';
+import * as Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-list-recipes',
@@ -21,10 +23,10 @@ export class ListRecipesComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private toastr: ToastrService,
-    private notificationService: NotificationService, 
+    private notificationService: NotificationService,
     private router: Router,
     public authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getRecipes();
@@ -48,28 +50,38 @@ export class ListRecipesComponent implements OnInit {
     this.router.navigate([`/recipes/edit/${id}`]);
   }
 
+  addRecipe() {
+    this.router.navigate(['/recipes/add']);  // Redirige al componente de añadir receta
+  }
+
   deleteRecipe(id: number) {
     // Verificamos si el usuario es un invitado
     const currentUser = this.authService.getUser();
     const userRole = currentUser?.role;
     if (userRole === 'guest') {
-        this.notificationService.showError('Los usuarios invitados no pueden eliminar recetas.');
-        return;
+      this.notificationService.showError('Los usuarios invitados no pueden eliminar recetas.');
+      return;
     }
 
     // Si es un usuario registrado, permitir la eliminación
     this.loading = true;
     this.recipeService.deleteRecipe(id).subscribe({
-        next: () => {
-            this.getRecipes(); // Recargar la lista después de eliminar
-            this.toastr.success('La receta fue eliminada con éxito', 'Receta Eliminada');
-            this.loading = false;
-        },
-        error: () => {
-            this.notificationService.showError('Error al eliminar la receta.');
-            this.loading = false;
-        }
+      next: () => {
+        this.getRecipes(); // Recargar la lista después de eliminar
+        this.toastr.success('La receta fue eliminada con éxito', 'Receta Eliminada');
+        this.loading = false;
+      },
+      error: () => {
+        this.notificationService.showError('Error al eliminar la receta.');
+        this.loading = false;
+      }
     });
-}
+  }
+
+  downloadCSV() {
+    const csvData = Papa.unparse(this.recipeList); // Convierte la lista de recetas a CSV
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'recetas.csv'); // Descarga el archivo CSV
+  }
 }
 

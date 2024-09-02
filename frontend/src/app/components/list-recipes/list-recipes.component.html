@@ -1,35 +1,5 @@
-<!--<p>list-recipes works!</p>
-<div class="container">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Descripción</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @if (recipes.length > 0) {
-          @for (recipe of recipes; track recipe.id) {
-            <tr>
-              <td>{{ recipe.title }}</td>
-              <td>{{ recipe.description }}</td>
-              <td>
-                <button class="btn btn-primary" (click)="editRecipe(recipe.id)">Editar</button>
-                <button class="btn btn-danger" (click)="deleteRecipe(recipe.id)">Eliminar</button>
-              </td>
-            </tr>
-          }
-        } @else {
-          <tr>
-            <td colspan="3">No hay recetas disponibles.</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>-->
-
-  <div class="container mt-4">
+<!--FUNCIONA PERFCTO PERO FALTA ADD
+<div class="container mt-4">
     <div class="card border-secondary">
         <div class="card-header bg-primary text-white">
             <h4>Listado de Recetas</h4>
@@ -66,7 +36,50 @@
             </table>
         </div>
     </div>
-</div>
+</div>-->
 
   
   
+<div class="container mt-4">
+  <div class="card border-secondary">
+      <div class="card-header bg-primary text-white d-flex justify-content-between">
+          <h4>Listado de Recetas</h4>
+          <div>
+              <button class="btn btn-info me-2" (click)="downloadCSV()">Descargar CSV</button>
+              <button class="btn btn-success" (click)="addRecipe()">Añadir Ítem</button>
+          </div>
+      </div>
+      <div class="card-body">
+          <table class="table table-hover">
+              <thead class="table-dark">
+                  <tr>
+                      <th scope="col">Título</th>
+                      <th scope="col">Descripción</th>
+                      <th scope="col">Pasos</th>
+                      <th scope="col">Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @if (recipeList.length > 0) {
+                      @for (recipe of recipeList; track recipe.id_recipe) {
+                          <tr>
+                              <td>{{ recipe.title }}</td>
+                              <td>{{ recipe.description }}</td>
+                              <td>{{ recipe.steps }}</td>
+                              <td>
+                                  <button class="btn btn-info btn-sm" (click)="editRecipe(recipe.id_recipe)">Editar</button>
+                                  <button class="btn btn-danger btn-sm ms-2" (click)="deleteRecipe(recipe.id_recipe)">Eliminar</button>
+                              </td>
+                          </tr>
+                      }
+                  } @else {
+                      <tr>
+                          <td colspan="4" class="text-center">No hay recetas disponibles.</td>
+                      </tr>
+                  }
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
