@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/*import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 interface Location {
@@ -32,4 +32,44 @@ export class LocationService {
   getLocations(): Observable<Location[]> {
     return of(this.locations);
   }
+}*/
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Location } from '../interfaces/location.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LocationService {
+  private apiUrl = 'http://localhost:3000/map'; // Asegúrate de que esta URL apunte a tu backend
+
+  constructor(private http: HttpClient) {}
+
+  // Obtener todas las ubicaciones
+  getLocations(): Observable<Location[]> {
+    return this.http.get<Location[]>(`${this.apiUrl}/locations`);
+  }
+
+  // Obtener el token de Mapbox
+  getMapboxToken(): Observable<{ mapboxToken: string }> {
+    return this.http.get<{ mapboxToken: string }>(`${this.apiUrl}/token`);
+  }
+
+  // Crear una nueva ubicación
+  createLocation(location: Location): Observable<Location> {
+    return this.http.post<Location>(this.apiUrl, location);
+  }
+
+  // Actualizar una ubicación existente
+  updateLocation(id: number, location: Location): Observable<Location> {
+    return this.http.put<Location>(`${this.apiUrl}/${id}`, location);
+  }
+
+  // Eliminar una ubicación
+  deleteLocation(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
+

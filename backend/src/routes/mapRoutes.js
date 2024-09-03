@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 export default router;*/
 
-import { Router } from 'express';
+/*import { Router } from 'express';
 import { getMapLocations, createMapLocation, updateMapLocation, deleteMapLocation } from '../controllers/mapController.js';
 
 const router = Router();
@@ -28,5 +28,36 @@ router.post('/', createMapLocation);
 router.put('/:id', updateMapLocation);
 router.delete('/:id', deleteMapLocation);
 
-export default router;
+export default router;*/
 
+import { Router } from "express";
+import {
+  getMapLocations,
+  createMapLocation,
+  updateMapLocation,
+  deleteMapLocation,
+} from "../controllers/mapController.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const router = Router();
+
+// Ruta para obtener el token de Mapbox
+router.get("/token", (req, res) => {
+  res.json({ mapboxToken: process.env.MAPBOX_TOKEN });
+});
+
+// Ruta para obtener todas las ubicaciones
+router.get("/locations", getMapLocations);
+
+// Ruta para crear una nueva ubicación
+router.post("/locations", createMapLocation);
+
+// Ruta para actualizar una ubicación existente
+router.put("/locations/:id", updateMapLocation);
+
+// Ruta para eliminar una ubicación
+router.delete("/locations/:id", deleteMapLocation);
+
+export default router;

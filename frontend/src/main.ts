@@ -53,6 +53,11 @@ import { provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Agregar polyfill para `process` para evitar el error `ReferenceError: process is not defined`
+(window as any).process = {
+  env: { DEBUG: undefined },
+};
+
 bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [

@@ -43,6 +43,8 @@ export class MapComponent implements AfterViewInit {
   }
 }*/
 
+/*
+FUNCIONA SIN DINAMISMO
 import { Component, AfterViewInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { LocationService } from '../../services/location.service';
@@ -87,7 +89,60 @@ export class MapComponent implements AfterViewInit {
       });
     });
   }
+}*/
+
+import { Component, AfterViewInit } from '@angular/core';
+import * as mapboxgl from 'mapbox-gl';
+import { HttpClient } from '@angular/common/http';
+import { LocationService } from '../../services/location.service';
+
+@Component({
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  standalone: true,
+  providers: [LocationService]
+})
+export class MapComponent implements AfterViewInit {
+  map!: mapboxgl.Map;
+
+  constructor(private locationService: LocationService, private http: HttpClient) {}
+
+  ngAfterViewInit(): void {
+    this.getMapboxTokenAndInitializeMap();
+  }
+
+  private getMapboxTokenAndInitializeMap(): void {
+    this.http.get<{ mapboxToken: string }>('http://localhost:3000/map/token')
+      .subscribe(response => {
+        console.log('Token de Mapbox:', response.mapboxToken); 
+        this.initializeMap(response.mapboxToken);
+      });
+  }
+
+  private initializeMap(token: string): void {
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [2.1734, 41.3851],
+      zoom: 12,
+      accessToken: token
+    });
+
+    this.map.on('load', () => {
+      this.addMarkers();
+    });
+  }
+
+  private addMarkers(): void {
+    this.locationService.getLocations().subscribe(locations => {
+      console.log('Ubicaciones recibidas:', locations); 
+      locations.forEach(location => {
+        const marker = new mapboxgl.Marker()
+          .setLngLat([location.longitude, location.latitude])
+          .setPopup(new mapboxgl.Popup().setHTML(`<h3>${location.name}</h3><p>${location.description}</p>`))
+          .addTo(this.map);
+      });
+    });
+  }
 }
-
-
-

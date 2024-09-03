@@ -5,6 +5,7 @@ import Ingredient from './models/ingredientModel.js';
 import RecipeIngredient from './models/recipeIngredientModel.js';
 import Comment from './models/commentModel.js';
 import Favorite from './models/favoriteModel.js';
+import MapLocation from './models/mapModel.js';
 
 const insertInitialData = async () => {
   const hashedPassword = await bcrypt.hash('password123', parseInt(process.env.BCRYPT_SALT));
@@ -133,6 +134,46 @@ const insertInitialData = async () => {
   await RecipeIngredient.bulkCreate(recipeIngredientsData, { ignoreDuplicates: true });
 
   console.log('RecipeIngredients inserted successfully');
+
+   // Datos de ejemplo para ubicaciones en Barcelona
+   const mapLocationData = [
+    {
+      name: 'La Sagrada Familia',
+      description: 'Una famosa basílica diseñada por Antoni Gaudí.',
+      latitude: 41.4036,
+      longitude: 2.1744
+    },
+    {
+      name: 'Parc Güell',
+      description: 'Un parque público con impresionantes obras de Gaudí.',
+      latitude: 41.4145,
+      longitude: 2.1527
+    },
+    {
+      name: 'Casa Batlló',
+      description: 'Un edificio modernista diseñado por Gaudí.',
+      latitude: 41.3916,
+      longitude: 2.1649
+    },
+    {
+      name: 'Barri Gòtic (Barrio Gótico)',
+      description: 'El casco antiguo de Barcelona con calles estrechas y arquitectura histórica.',
+      latitude: 41.3833,
+      longitude: 2.1833
+    },
+    {
+      name: 'Museu Picasso',
+      description: 'Un museo dedicado a las obras del pintor Pablo Picasso.',
+      latitude: 41.3851,
+      longitude: 2.1805
+    }
+  ];
+
+  // Inserta las ubicaciones en la base de datos
+  await MapLocation.bulkCreate(mapLocationData, { ignoreDuplicates: true });
+
+  console.log('Ubicaciones del mapa insertadas correctamente.');
+
 };
 
 export default insertInitialData;
