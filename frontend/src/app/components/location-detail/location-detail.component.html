@@ -1,0 +1,91 @@
+<!--<p>location-detail works!</p>
+<div class="location-detail-panel">
+    <h2>{{ location.name }}</h2>
+    <p>{{ location.description }}</p>
+    <div class="button-group">
+        <button class="btn btn-warning" (click)="editLocation()">Editar</button>
+        <button class="btn btn-danger" (click)="deleteLocation()">Eliminar</button>
+    </div>
+</div>-->
+<!--VAMOS A VER
+<div class="location-detail">
+    <h2>Detalles de la Ubicación</h2>
+    
+    <div>
+      <label for="search">Buscar ubicación:</label>
+      <input formControlName="searchQuery" type="text" id="search" class="form-control" placeholder="Nombre o dirección" (keyup.enter)="searchLocation()">
+      <button (click)="searchLocation()">Buscar</button>
+    </div>
+  
+    @if (searchResults.length > 0) {
+      <h3>Resultados de la búsqueda:</h3>
+      <ul>
+        @for (result of searchResults; track result.id) {
+          <li (click)="selectSearchResult(result)">
+            {{ result.name }}
+          </li>
+        }
+      </ul>
+    }
+  
+    @if (location) {
+      <p><strong>Nombre:</strong> {{ location.name }}</p>
+      <p><strong>Descripción:</strong> {{ location.description }}</p>
+      <p><strong>Latitud:</strong> {{ location.latitude }}</p>
+      <p><strong>Longitud:</strong> {{ location.longitude }}</p>
+      <button (click)="editLocation()">Editar</button>
+      <button (click)="deleteLocation()">Eliminar</button>
+    }
+  
+    <button (click)="router.navigate(['/map'])">Volver al mapa</button>
+  </div>-->
+ <!-- <div class="location-detail">
+    <h2>Detalles de la Ubicación</h2>
+
+    <div>
+        <label for="search">Buscar ubicación:</label>
+        <input formControlName="searchQuery" type="text" id="search" class="form-control" placeholder="Nombre o dirección" (keyup.enter)="searchLocation()">
+        <button (click)="searchLocation()">Buscar</button>
+    </div>
+
+    @if (searchResults.length > 0) {
+        <h3>Resultados de la búsqueda:</h3>
+        <ul>
+            @for (result of searchResults; track result.id) {
+                <li (click)="selectSearchResult(result)">
+                    {{ result.name }}
+                </li>
+            }
+        </ul>
+    }
+
+    @if (location) {
+        <p><strong>Nombre:</strong> {{ location.name }}</p>
+        <p><strong>Descripción:</strong> {{ location.description }}</p>
+        <p><strong>Latitud:</strong> {{ location.latitude }}</p>
+        <p><strong>Longitud:</strong> {{ location.longitude }}</p>
+        <button (click)="editLocation()">Editar</button>
+        <button (click)="deleteLocation()">Eliminar</button>
+    }
+
+    <button (click)="router.navigate(['/map'])">Volver al mapa</button>
+</div>-->
+<div class="location-detail">
+    <h2>Detalles de la Ubicación</h2>
+  
+    <p><strong>Nombre:</strong> {{ location.name }}</p>
+    <p><strong>Descripción:</strong> {{ location.description }}</p>
+    <p><strong>Latitud:</strong> {{ location.latitude }}</p>
+    <p><strong>Longitud:</strong> {{ location.longitude }}</p>
+  
+    <div class="button-group">
+      <button class="btn btn-warning" (click)="editLocation()">Editar</button>
+      <button class="btn btn-danger" (click)="deleteLocation()">Eliminar</button>
+    </div>
+  
+    <button class="btn btn-secondary mt-3" (click)="router.navigate(['/map'])">Volver al mapa</button>
+  </div>
+  
+
+  
+  

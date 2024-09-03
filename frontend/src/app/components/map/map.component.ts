@@ -91,6 +91,7 @@ export class MapComponent implements AfterViewInit {
   }
 }*/
 
+/*FUNCIONA! 
 import { Component, AfterViewInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { HttpClient } from '@angular/common/http';
@@ -144,5 +145,115 @@ export class MapComponent implements AfterViewInit {
           .addTo(this.map);
       });
     });
+  }
+}*/
+
+// map.component.ts
+import { Component, AfterViewInit } from '@angular/core';
+import * as mapboxgl from 'mapbox-gl';
+import { HttpClient } from '@angular/common/http';
+import { LocationService } from '../../services/location.service';
+import { LocationDetailComponent } from '../location-detail/location-detail.component';
+import { Location } from '../../interfaces/location.interface';
+
+@Component({
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  standalone: true,
+  providers: [LocationService],
+  imports: [LocationDetailComponent],
+})
+export class MapComponent implements AfterViewInit {
+  map!: mapboxgl.Map;
+  selectedLocation!: Location;
+
+  constructor(private locationService: LocationService, private http: HttpClient) {}
+
+  ngAfterViewInit(): void {
+    this.getMapboxTokenAndInitializeMap();
+  }
+
+  private getMapboxTokenAndInitializeMap(): void {
+    this.http.get<{ mapboxToken: string }>('http://localhost:3000/map/token').subscribe((response) => {
+      this.initializeMap(response.mapboxToken);
+    });
+  }
+
+  private initializeMap(token: string): void {
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [2.1734, 41.3851],
+      zoom: 12,
+      accessToken: token,
+    });
+
+    this.map.on('load', () => {
+      this.addMarkers();
+    });
+
+    this.map.on('click', (event) => {
+      this.addNewLocation(event.lngLat);
+    });
+  }
+
+  private addMarkers(): void {
+    this.locationService.getLocations().subscribe(locations => {
+      locations.forEach(location => {
+        this.addMarkerToMap(location);
+      });
+    });
+  }
+
+  private addMarkerToMap(location: Location): void {
+    const marker = new mapboxgl.Marker()
+      .setLngLat([location.longitude, location.latitude])
+      .setPopup(new mapboxgl.Popup().setHTML(`
+          <h3>${location.name}</h3>
+          <p>${location.description}</p>
+          <p>Doble clic para más detalles</p>
+        `))
+      .addTo(this.map);
+
+    marker.getElement().addEventListener('dblclick', (e) => {
+      e.stopPropagation();
+      this.showLocationDetails(location);
+    });
+  }
+
+  private addNewLocation(lngLat: mapboxgl.LngLat): void {
+    const name = prompt('Introduce un nombre para la nueva ubicación:');
+    const description = prompt('Introduce una descripción para la nueva ubicación:');
+
+    if (name && description) {
+      const newLocation: Location = {
+        name: name,
+        description: description,
+        latitude: lngLat.lat,
+        longitude: lngLat.lng,
+      };
+
+      this.locationService.createLocation(newLocation).subscribe({
+        next: (createdLocation) => {
+          this.addMarkerToMap(createdLocation);
+        },
+        error: (error) => {
+          console.error('Error al crear la ubicación:', error);
+        }
+      });
+    }
+  }
+
+  private showLocationDetails(location: Location): void {
+    this.selectedLocation = location;
+    this.openDetailPanel();
+  }
+
+  private openDetailPanel(): void {
+    const panel = document.querySelector('.location-detail-panel');
+    if (panel) {
+      panel.classList.add('visible');
+    }
   }
 }

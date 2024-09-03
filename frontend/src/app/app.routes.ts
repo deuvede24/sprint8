@@ -9,6 +9,8 @@ import { ViewRecipeComponent } from './components/view-recipe/view-recipe.compon
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ListLocationsComponent } from './components/list-locations/list-locations.component'; 
+import { EditLocationComponent } from './components/edit-location/edit-location.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +19,9 @@ export const routes: Routes = [
 
   // Rutas protegidas por autenticación
   { path: 'map', component: MapComponent, canActivate: [AuthGuard] },
+  { path: 'locations', component: ListLocationsComponent, canActivate: [AuthGuard] },
+  { path: 'locations/add', component: EditLocationComponent, canActivate: [AuthGuard] },
+  { path: 'locations/edit/:id', component: EditLocationComponent, canActivate: [AuthGuard] },
   { path: 'fullcalendar', component: FullcalendarComponent, canActivate: [AuthGuard] },
   { path: 'charts', component: ChartsComponent, canActivate: [AuthGuard] },
   

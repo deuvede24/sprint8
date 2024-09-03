@@ -38,38 +38,62 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Location } from '../interfaces/location.interface';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class LocationService {
-  private apiUrl = 'http://localhost:3000/map'; // Asegúrate de que esta URL apunte a tu backend
+    private apiUrl = 'http://localhost:3000/map'; // Asegúrate de que esta URL apunte a tu backend
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-  // Obtener todas las ubicaciones
-  getLocations(): Observable<Location[]> {
-    return this.http.get<Location[]>(`${this.apiUrl}/locations`);
-  }
+    // Obtener todas las ubicaciones
+    getLocations(): Observable<Location[]> {
+        return this.http.get<Location[]>(`${this.apiUrl}/locations`);
+    }
 
-  // Obtener el token de Mapbox
-  getMapboxToken(): Observable<{ mapboxToken: string }> {
-    return this.http.get<{ mapboxToken: string }>(`${this.apiUrl}/token`);
-  }
+    // Obtener una ubicación específica por ID
+    getLocation(id: number): Observable<Location> {
+        return this.http.get<Location>(`${this.apiUrl}/locations/${id}`);
+    }
 
-  // Crear una nueva ubicación
-  createLocation(location: Location): Observable<Location> {
-    return this.http.post<Location>(this.apiUrl, location);
-  }
+     /* Geocodificar una ubicación (Buscar por nombre o dirección)
+     geocodeLocation(query: string): Observable<any> {
+        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${this.mapboxToken}`;
+        return this.http.get(url);
+    }*/
+    // Geocodificación de una ubicación
+    geocodeLocation(query: string): Observable<any> {
+        return this.getMapboxToken().pipe(
+            switchMap(response => {
+                const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${response.mapboxToken}`;
+                return this.http.get(url);
+            })
+        );
+    }
 
-  // Actualizar una ubicación existente
-  updateLocation(id: number, location: Location): Observable<Location> {
-    return this.http.put<Location>(`${this.apiUrl}/${id}`, location);
-  }
+    // Obtener el token de Mapbox
+    getMapboxToken(): Observable<{ mapboxToken: string }> {
+        return this.http.get<{ mapboxToken: string }>(`${this.apiUrl}/token`);
+    }
 
-  // Eliminar una ubicación
-  deleteLocation(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+    // Crear una nueva ubicación
+    createLocation(location: Location): Observable<Location> {
+        return this.http.post<Location>(this.apiUrl, location);
+    }
+
+    // Actualizar una ubicación existente
+    updateLocation(id: number, location: Location): Observable<Location> {
+        return this.http.put<Location>(`${this.apiUrl}/${id}`, location);
+    }
+
+    // Eliminar una ubicación
+   /* deleteLocation(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    }*/
+    deleteLocation(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/locations/${id}`);
+      }
 }
 

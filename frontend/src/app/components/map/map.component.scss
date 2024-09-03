@@ -1,5 +1,54 @@
 #map {
-    width: 100%;
+    width: 100%; /* Ajustar el mapa para que no esté debajo del panel */
     height: 100vh;
+    position: relative; /* Asegura que el mapa tenga una posición relativa */
+    z-index: 1; /* Asegura que el mapa esté debajo del panel */
   }
+
+  .mapboxgl-popup-content small {
+    display: block;
+    margin-top: 10px;
+    color: #777;
+    font-size: 12px;
+  }
+
+  /* map.component.scss */
+.location-detail-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    z-index: 10;
+    transform: translateX(100%); /* Oculto por defecto */
+    transition: transform 0.3s ease;
+  
+    &.visible {
+      transform: translateX(0); /* Mostrar el panel */
+    }
+}
+  
+ /* h2 {
+    margin-top: 0;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    
+    button {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    button:last-child {
+      margin-right: 0;
+    }
+  }*/
+
+  
   
