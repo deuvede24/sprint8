@@ -39,6 +39,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Location } from '../interfaces/location.interface';
 import { switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { CreateLocationResponse } from '../interfaces/location.interface';  // Importa la interfaz
 
 @Injectable({
     providedIn: 'root'
@@ -58,11 +60,11 @@ export class LocationService {
         return this.http.get<Location>(`${this.apiUrl}/locations/${id}`);
     }
 
-     /* Geocodificar una ubicación (Buscar por nombre o dirección)
-     geocodeLocation(query: string): Observable<any> {
-        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${this.mapboxToken}`;
-        return this.http.get(url);
-    }*/
+    /* Geocodificar una ubicación (Buscar por nombre o dirección)
+    geocodeLocation(query: string): Observable<any> {
+       const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${this.mapboxToken}`;
+       return this.http.get(url);
+   }*/
     // Geocodificación de una ubicación
     geocodeLocation(query: string): Observable<any> {
         return this.getMapboxToken().pipe(
@@ -79,21 +81,26 @@ export class LocationService {
     }
 
     // Crear una nueva ubicación
+    /*createLocation(location: Location): Observable<Location> {
+        return this.http.post<Location>(`${this.apiUrl}/locations`, location);
+    }*/
+
     createLocation(location: Location): Observable<Location> {
-        return this.http.post<Location>(this.apiUrl, location);
+        return this.http.post<CreateLocationResponse>(`${this.apiUrl}/locations`, location)
+            .pipe(map(response => response.newLocation)); // Solo devolvemos newLocation
     }
 
     // Actualizar una ubicación existente
     updateLocation(id: number, location: Location): Observable<Location> {
-        return this.http.put<Location>(`${this.apiUrl}/${id}`, location);
+        return this.http.put<Location>(`${this.apiUrl}/locations/${id}`, location);
     }
 
     // Eliminar una ubicación
-   /* deleteLocation(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }*/
+    /* deleteLocation(id: number): Observable<void> {
+         return this.http.delete<void>(`${this.apiUrl}/${id}`);
+     }*/
     deleteLocation(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/locations/${id}`);
-      }
+    }
 }
 

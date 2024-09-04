@@ -36,6 +36,7 @@ import {
   createMapLocation,
   updateMapLocation,
   deleteMapLocation,
+  getLocationById,
 } from "../controllers/mapController.js";
 import dotenv from "dotenv";
 
@@ -50,12 +51,13 @@ router.get("/token", (req, res) => {
 
 // Ruta para obtener todas las ubicaciones
 router.get("/locations", getMapLocations);
+router.get("/locations/:id", getLocationById);
 
 // Ruta para crear una nueva ubicación
 router.post("/locations", createMapLocation);
 
 // Ruta para actualizar una ubicación existente
-router.put("/locations/:id", updateMapLocation);
+router.put("/locations/:id", updateMapLocation)
 
 // Ruta para eliminar una ubicación
 router.delete("/locations/:id", deleteMapLocation);

@@ -1,4 +1,4 @@
-import MapLocation from '../models/mapModel.js';
+import MapLocation from "../models/mapModel.js";
 
 // Obtener todas las ubicaciones
 export const getMapLocations = async (req, res) => {
@@ -6,7 +6,9 @@ export const getMapLocations = async (req, res) => {
     const locations = await MapLocation.findAll();
     res.json(locations);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener las ubicaciones del mapa.' });
+    res
+      .status(500)
+      .json({ error: "Error al obtener las ubicaciones del mapa." });
   }
 };
 
@@ -19,12 +21,22 @@ export const createMapLocation = async (req, res) => {
       name,
       description,
       latitude,
-      longitude
+      longitude,
     });
-
-    res.status(201).json({ message: 'Ubicación creada correctamente.', newLocation });
+    console.log("Ubicación creada:", newLocation);
+    //res.status(201).json({ message: 'Ubicación creada correctamente.', newLocation });
+    res.status(201).json({
+      message: "Ubicación creada correctamente.",
+      newLocation: {
+        id: newLocation.id,
+        name: newLocation.name,
+        description: newLocation.description,
+        latitude: Number(newLocation.latitude), // Convertimos explícitamente a número
+        longitude: Number(newLocation.longitude), // Convertimos explícitamente a número
+      },
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear la ubicación del mapa.' });
+    res.status(500).json({ error: "Error al crear la ubicación del mapa." });
   }
 };
 
@@ -36,7 +48,7 @@ export const updateMapLocation = async (req, res) => {
   try {
     const location = await MapLocation.findByPk(id);
     if (!location) {
-      return res.status(404).json({ error: 'Ubicación no encontrada.' });
+      return res.status(404).json({ error: "Ubicación no encontrada." });
     }
 
     location.name = name || location.name;
@@ -46,9 +58,11 @@ export const updateMapLocation = async (req, res) => {
 
     await location.save();
 
-    res.json({ message: 'Ubicación actualizada correctamente.', location });
+    res.json({ message: "Ubicación actualizada correctamente.", location });
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar la ubicación del mapa.' });
+    res
+      .status(500)
+      .json({ error: "Error al actualizar la ubicación del mapa." });
   }
 };
 
@@ -59,12 +73,27 @@ export const deleteMapLocation = async (req, res) => {
   try {
     const location = await MapLocation.findByPk(id);
     if (!location) {
-      return res.status(404).json({ error: 'Ubicación no encontrada.' });
+      return res.status(404).json({ error: "Ubicación no encontrada." });
     }
 
     await location.destroy();
-    res.json({ message: 'Ubicación eliminada correctamente.' });
+    res.json({ message: "Ubicación eliminada correctamente." });
   } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar la ubicación del mapa.' });
+    res.status(500).json({ error: "Error al eliminar la ubicación del mapa." });
+  }
+};
+
+// Obtener una ubicación por su ID
+export const getLocationById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const location = await MapLocation.findByPk(id); // Utiliza findByPk para buscar por ID
+    if (!location) {
+      return res.status(404).json({ error: "Ubicación no encontrada." });
+    }
+    res.json(location);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener la ubicación." });
   }
 };

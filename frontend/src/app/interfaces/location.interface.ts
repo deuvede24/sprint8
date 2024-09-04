@@ -6,4 +6,9 @@ export interface Location {
     latitude: number;
     longitude: number;
   }
+
+  export interface CreateLocationResponse {
+    message: string;
+    newLocation: Location;
+  }
   
