@@ -149,7 +149,6 @@ export class MapComponent implements AfterViewInit {
 }*/
 
 // map.component.ts
-// map.component.ts
 import { Component, AfterViewInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { HttpClient } from '@angular/common/http';
@@ -169,7 +168,7 @@ export class MapComponent implements AfterViewInit {
   map!: mapboxgl.Map;
   selectedLocation!: Location;
 
-  constructor(private locationService: LocationService, private http: HttpClient) { }
+  constructor(private locationService: LocationService, private http: HttpClient) {}
 
   ngAfterViewInit(): void {
     this.getMapboxTokenAndInitializeMap();
@@ -195,54 +194,39 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.on('click', (event) => {
-      this.addNewLocation(event.lngLat); // Agregar nueva ubicación al hacer click
+      const features = this.map.queryRenderedFeatures(event.point); // Verificar si el clic fue en un marcador
+      if (features.length === 0) {
+        this.addNewLocation(event.lngLat); // Solo agregar nueva ubicación si no hay un marcador
+      }
     });
   }
 
   addMarkers(): void {
-    this.locationService.getLocations().subscribe(locations => {
-      locations.forEach(location => {
+    this.locationService.getLocations().subscribe((locations) => {
+      locations.forEach((location) => {
         this.addMarkerToMap(location);
       });
     });
   }
 
- /* addMarkerToMap(location: Location): void {
-    // Verificamos si las coordenadas son válidas antes de agregar el marcador
-    if (!location.latitude || !location.longitude || isNaN(location.latitude) || isNaN(location.longitude)) {
-      console.error('Coordenadas inválidas recibidas en addMarkerToMap:', location.latitude, location.longitude);
-      return;
-    }
-    console.log('Coordenadas recibidas correctamente en addMarkerToMap:', location.latitude, location.longitude);
-
-    // Crear y agregar el marcador al mapa
+  addMarkerToMap(location: Location): void {
     const marker = new mapboxgl.Marker()
       .setLngLat([location.longitude, location.latitude])
-      .setPopup(new mapboxgl.Popup().setHTML(`
+      .setPopup(
+        new mapboxgl.Popup().setHTML(`
           <h3>${location.name}</h3>
           <p>${location.description}</p>
-          <p>Doble clic para más detalles</p>
-        `))
+        `)
+      )
       .addTo(this.map);
 
     // Añadir evento para mostrar los detalles al hacer doble clic
     marker.getElement().addEventListener('dblclick', (e) => {
-      e.stopPropagation();
-      this.showLocationDetails(location);
+      e.stopPropagation(); // Prevenir el evento de doble clic en el mapa
+      this.showLocationDetails(location); // Mostrar detalles de la ubicación
     });
-  }*/
+  }
 
-    addMarkerToMap(location: Location): void {
-      new mapboxgl.Marker()
-        .setLngLat([location.longitude, location.latitude])
-        .setPopup(new mapboxgl.Popup().setHTML(`
-          <h3>${location.name}</h3>
-          <p>${location.description}</p>
-        `))
-        .addTo(this.map);
-    }
-
-  
   addNewLocation(lngLat: mapboxgl.LngLat): void {
     const name = prompt('Introduce un nombre para la nueva ubicación:');
     const description = prompt('Introduce una descripción para la nueva ubicación:');
@@ -258,16 +242,14 @@ export class MapComponent implements AfterViewInit {
       this.locationService.createLocation(newLocation).subscribe({
         next: (createdLocation) => {
           console.log('Ubicación creada correctamente en el backend:', createdLocation);
-
           this.addMarkerToMap(createdLocation);
         },
         error: (error) => {
           console.error('Error al crear la ubicación:', error);
-        }
+        },
       });
     }
   }
-  
 
   showLocationDetails(location: Location): void {
     this.selectedLocation = location;
