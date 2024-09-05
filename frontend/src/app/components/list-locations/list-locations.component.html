@@ -1,5 +1,5 @@
 <p>list-locations works!</p>
-<div>
+<!--<div>
     <h2>Lista de Ubicaciones</h2>
     <button [routerLink]="['/locations/add']" class="btn btn-primary">Añadir Nueva Ubicación</button>
     <table class="table mt-3">
@@ -17,6 +17,7 @@
                 <td>{{ location.name }}</td>
                 <td>{{ location.description }}</td>
                 <td>
+                    <div class="button-group">
                     <button [routerLink]="location.id ? ['/locations/edit', location.id] : null"
                         [disabled]="!location.id" class="btn btn-warning">
                         Editar
@@ -25,6 +26,7 @@
                         class="btn btn-danger">
                         Eliminar
                     </button>
+                </div>
                 </td>
             </tr>
             }
@@ -35,4 +37,43 @@
             }
         </tbody>
     </table>
-</div>
+</div>-->
+
+<div class="container mt-5">
+    <h2 class="mb-4">Lista de Ubicaciones</h2>
+    <button [routerLink]="['/locations/add']" class="btn btn-primary mb-3">Añadir Nueva Ubicación</button>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (locations.length > 0) {
+        @for (location of locations; track location.id) {
+        <tr>
+          <td>{{ location.name }}</td>
+          <td>{{ location.description }}</td>
+          <td class="d-flex gap-2">
+            <button [routerLink]="location.id ? ['/locations/edit', location.id] : null"
+              [disabled]="!location.id" class="btn btn-warning">
+              Editar
+            </button>
+            <button (click)="location.id ? deleteLocation(location.id) : null" [disabled]="!location.id"
+              class="btn btn-danger">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+        }
+        } @else {
+        <tr>
+          <td colspan="3">No hay ubicaciones disponibles.</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  

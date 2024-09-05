@@ -28,6 +28,12 @@ const MapLocation = sequelize.define('MapLocation', {
   timestamps: true,
   // Nombre de la tabla en la base de datos
   tableName: 'map_locations',
+  indexes: [
+    {
+      unique: true,
+      fields: ['name', 'latitude', 'longitude'], // Estos tres campos combinados deben ser únicos
+    },
+  ],
 });
 
 // Exportamos el modelo

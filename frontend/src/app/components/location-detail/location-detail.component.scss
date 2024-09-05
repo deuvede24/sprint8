@@ -17,6 +17,13 @@ pero no los estilos del panel que ya están en `map.component.scss`. */
     .button-group {
       margin-top: 20px;
     }
+    .button-group button {
+        margin-right: 10px; /* Espacio entre los botones */
+      }
+      
+      .button-group button:last-child {
+        margin-right: 0; /* No aplicar margen al último botón */
+      }
   }
   
   

@@ -166,9 +166,10 @@ import { Location } from '../../interfaces/location.interface';
 })
 export class MapComponent implements AfterViewInit {
   map!: mapboxgl.Map;
-  selectedLocation!: Location;
+  selectedLocation: Location | null = null; // Cambiado para aceptar null
+  panelVisible: boolean = false; // Control para la visibilidad del panel
 
-  constructor(private locationService: LocationService, private http: HttpClient) {}
+  constructor(private locationService: LocationService, private http: HttpClient) { }
 
   ngAfterViewInit(): void {
     this.getMapboxTokenAndInitializeMap();
@@ -214,8 +215,11 @@ export class MapComponent implements AfterViewInit {
       .setLngLat([location.longitude, location.latitude])
       .setPopup(
         new mapboxgl.Popup().setHTML(`
+          <div class="popup-container">
           <h3>${location.name}</h3>
           <p>${location.description}</p>
+          <p><small>Doble clic para más detalles</small></p>
+          </div>
         `)
       )
       .addTo(this.map);
@@ -253,15 +257,30 @@ export class MapComponent implements AfterViewInit {
 
   showLocationDetails(location: Location): void {
     this.selectedLocation = location;
+    this.panelVisible = true; // Mostrar el botón "Volver al mapa"
     this.openDetailPanel();
   }
 
-  openDetailPanel(): void {
+  /*openDetailPanel(): void {
     const panel = document.querySelector('.location-detail-panel');
     if (panel) {
       panel.classList.add('visible');
     } else {
       console.error('Panel de detalles no encontrado');
     }
+  }*/
+  openDetailPanel(): void {
+    this.panelVisible = true; // Hacer visible el panel
   }
+
+  closePanel(): void {
+    console.log('Cerrando el panel...');
+    this.selectedLocation = null; // Limpiar la ubicación seleccionada
+    const panel = document.querySelector('.location-detail-panel');
+    if (panel) {
+      panel.classList.remove('visible'); // Ocultar el panel
+    }
+    this.panelVisible = false; // Hacer desaparecer el botón "Volver al mapa"
+  }
+  
 }

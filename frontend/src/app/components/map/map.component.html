@@ -1,9 +1,28 @@
 <!--<div id="map" style="width: 100%; height: 100vh;"></div>-->
 
-<div id="map" style="width: 100%; height: 100vh;"></div>
+<!--<div id="map" style="width: 100%; height: 100vh;"></div>
 
 @if (selectedLocation) {
   <div class="location-detail-panel">
     <app-location-detail [location]="selectedLocation"></app-location-detail>
   </div>
+}-->
+
+
+<div id="map" style="width: 100%; height: 100vh;"></div>
+
+@if (selectedLocation) {
+  <div class="location-detail-panel visible">
+    <app-location-detail [location]="selectedLocation"></app-location-detail>
+
+    <!-- Pestaña de cierre con la flecha -->
+    <button class="close-panel-btn" (click)="closePanel()">&#9664;</button> <!-- Flecha visible para cerrar -->
+  </div>
+}
+
+<!-- Botón para volver al mapa (si el panel está visible) -->
+@if (panelVisible) {
+    <button (click)="closePanel()" class="btn btn-secondary mt-3">
+        Volver al mapa
+      </button>
 }

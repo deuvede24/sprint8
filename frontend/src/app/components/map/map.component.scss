@@ -1,54 +1,90 @@
-#map {
-    width: 100%; /* Ajustar el mapa para que no esté debajo del panel */
-    height: 100vh;
-    position: relative; /* Asegura que el mapa tenga una posición relativa */
-    z-index: 1; /* Asegura que el mapa esté debajo del panel */
-  }
-
-  .mapboxgl-popup-content small {
-    display: block;
-    margin-top: 10px;
-    color: #777;
-    font-size: 12px;
-  }
-
-  /* map.component.scss */
+/* Estilo general del panel de detalles */
 .location-detail-panel {
     position: fixed;
     right: 0;
     top: 0;
     width: 300px;
     height: 100%;
+    max-height: 600px; /* Altura máxima para el panel */
     background: white;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
     padding: 20px;
-    z-index: 10;
+    z-index: 1000; /* Para estar encima del mapa */
     transform: translateX(100%); /* Oculto por defecto */
     transition: transform 0.3s ease;
-  
-    &.visible {
-      transform: translateX(0); /* Mostrar el panel */
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+/* Cuando el panel está visible */
+.location-detail-panel.visible {
+    transform: translateX(0); /* Mostrar el panel */
+}
+
+/* Estilo para la pestaña de cierre (flecha) */
+.close-panel-btn {
+    position: absolute;
+    top: 15px; /* Pestaña en la parte superior */
+    left: -25px; /* Hacer que sobresalga desde el borde del panel */
+    width: 40px;
+    height: 40px;
+    background-color: #007bff; /* Color azul de la pestaña (Bootstrap Solar) */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Redondear completamente la pestaña */
+    cursor: pointer;
+    font-size: 24px; /* Tamaño de la flecha */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Añadir una ligera sombra */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efectos hover sobre la pestaña */
+.close-panel-btn:hover {
+    background-color: #0056b3; /* Cambia el color de la pestaña cuando pasa el cursor */
+    transform: scale(1.1); /* Aumenta el tamaño al pasar el cursor */
+}
+
+/* Responsividad para móviles */
+@media (max-width: 768px) {
+    .location-detail-panel {
+        width: 100%; /* Ocupa todo el ancho en móviles */
+        height: auto; /* Ajuste automático de altura */
+        right: 0;
+        top: 0;
+        border-radius: 0; /* Elimina los bordes redondeados en móvil */
+    }
+
+    /* Ajustes para la pestaña en dispositivos móviles */
+    .close-panel-btn {
+        top: 10px; /* Mantén la pestaña en la parte superior */
+        left: -15px; /* Hacerla sobresalir un poco menos en pantallas pequeñas */
+        width: 35px;
+        height: 35px;
+        font-size: 20px; /* Reduce un poco el tamaño de la flecha en móvil */
+    }
+
+    /* Opcional: Ocultar la pestaña en móviles y usar solo el botón "Volver al mapa" */
+    .close-panel-btn {
+        display: none;
+    }
+
+    /* Mostrar el botón "Volver al mapa" */
+    .btn-secondary {
+        display: block;
+        margin: 0 auto;
     }
 }
-  
- /* h2 {
-    margin-top: 0;
-  }
 
-  .button-group {
-    display: flex;
-    justify-content: space-between;
+/* Botón de "Volver al mapa", más visible en móviles */
+.btn-secondary {
+    display: none; /* Ocultar en pantallas grandes */
     margin-top: 20px;
-    
-    button {
-      flex: 1;
-      margin-right: 10px;
+    @media (max-width: 768px) {
+        display: block; /* Mostrar en dispositivos móviles */
     }
+}
 
-    button:last-child {
-      margin-right: 0;
-    }
-  }*/
 
-  
-  
+
+
+
+
