@@ -273,7 +273,7 @@ export class MapComponent implements AfterViewInit {
     this.panelVisible = true; // Hacer visible el panel
   }
 
-  closePanel(): void {
+  /*closePanel(): void {
     console.log('Cerrando el panel...');
     this.selectedLocation = null; // Limpiar la ubicación seleccionada
     const panel = document.querySelector('.location-detail-panel');
@@ -281,6 +281,15 @@ export class MapComponent implements AfterViewInit {
       panel.classList.remove('visible'); // Ocultar el panel
     }
     this.panelVisible = false; // Hacer desaparecer el botón "Volver al mapa"
-  }
+  }*/
+
+  closePanel(): void {
+    this.selectedLocation = null; // Limpiar la ubicación seleccionada
+    const panel = document.querySelector('.location-detail-panel');
+    if (panel) {
+        panel.classList.remove('visible'); // Ocultar el panel
+    }
+    this.panelVisible = false;
+}
   
 }
