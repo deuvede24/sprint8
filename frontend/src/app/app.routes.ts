@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { MapComponent } from './components/map/map.component';
-import { FullcalendarComponent } from './components/fullcalendar/fullcalendar.component';
+import { FullCalendarComponent } from './components/fullcalendar/fullcalendar.component';
 import { ChartsComponent } from './components/charts/charts.component';
 import { ListRecipesComponent } from './components/list-recipes/list-recipes.component';
 import { AddEditRecipeComponent } from './components/add-edit-recipe/add-edit-recipe.component';
@@ -22,7 +22,7 @@ export const routes: Routes = [
   { path: 'locations', component: ListLocationsComponent, canActivate: [AuthGuard] },
   { path: 'locations/add', component: EditLocationComponent, canActivate: [AuthGuard] },
   { path: 'locations/edit/:id', component: EditLocationComponent, canActivate: [AuthGuard] },
-  { path: 'fullcalendar', component: FullcalendarComponent, canActivate: [AuthGuard] },
+  { path: 'fullcalendar', component: FullCalendarComponent, canActivate: [AuthGuard] },
   { path: 'charts', component: ChartsComponent, canActivate: [AuthGuard] },
   
   // Ruta para ver la lista de recetas (sin autenticación)
