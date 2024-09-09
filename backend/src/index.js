@@ -12,6 +12,7 @@ import ingredientRoutes from "./routes/ingredientRoutes.js";
 import recipeIngredientRoutes from "./routes/recipeIngredientRoutes.js";
 //import mapLocationRoutes from './routes/mapRoutes.js'
 import mapRoutes from './routes/mapRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';
 
 import { testConnection } from "./db.js";
 import insertInitialData from "./start_data.js";
@@ -46,6 +47,8 @@ app.use("/ingredients", ingredientRoutes);
 app.use("/recipe-ingredients", recipeIngredientRoutes);
 //app.use('/locations', mapLocationRoutes);
 app.use('/map', mapRoutes);
+app.use('/events', eventRoutes);  // Añadir las rutas de eventos
+
 
 
 // Iniciar el servidor
