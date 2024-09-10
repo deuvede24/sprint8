@@ -13,7 +13,7 @@ const Ingredient = sequelize.define('Ingredient', {
     //unique: true
   }
 }, {
-  //tableName: 'ingredients',
+  tableName: 'Ingredients',
   indexes: [{ unique: true, fields: ["name"] }],
   timestamps: false // No necesitamos created_at ni updated_at para este modelo
 });

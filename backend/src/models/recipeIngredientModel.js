@@ -25,7 +25,8 @@ const RecipeIngredient = sequelize.define('RecipeIngredient', {
     allowNull: false
   }
 }, {
-  timestamps: false // No necesitamos created_at ni updated_at para este modelo
+  timestamps: false ,// No necesitamos created_at ni updated_at para este modelo
+  tableName: 'RecipeIngredients'  // Asegúrate de que coincida con el nombre exacto de la tabla en la base de datos
 });
 
 Recipe.belongsToMany(Ingredient, { through: RecipeIngredient, foreignKey: 'recipe_id' });

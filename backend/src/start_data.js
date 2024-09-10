@@ -221,12 +221,12 @@ const insertInitialData = async () => {
 
   console.log("Intentando insertar eventos...");
 
-  const eventData = [
+  /*const eventData = [
     {
       title: "Lanzamiento de Receta Tacos Veganos",
       description: "Receta especial de tacos veganos para el público",
       type: "receta",
-      date: new Date("2024-09-15"),
+      date: new Date("2024-09-16"),
     },
     {
       title: "Apertura de Restaurante Vegano",
@@ -237,11 +237,52 @@ const insertInitialData = async () => {
   ];
 
   try {
-    await Event.bulkCreate(eventData);
+    //await Event.bulkCreate(eventData);
+    await Event.bulkCreate(eventData, { ignoreDuplicates: true });
     console.log("Eventos insertados correctamente");
   } catch (error) {
     console.error("Error al insertar eventos:", error);
-  }
+  }*/
+    console.log("Intentando insertar eventos...");
+
+    const eventData = [
+      {
+        title: "Lanzamiento de Receta Tacos Veganos",
+        description: "Receta especial de tacos veganos para el público",
+        type: "receta",
+        date: new Date("2024-09-16"),
+      },
+      {
+        title: "Apertura de Restaurante Vegano",
+        description: "Un nuevo restaurante vegano abrirá sus puertas",
+        type: "restaurante",
+        date: new Date("2024-09-20"),
+      },
+    ];
+    
+    try {
+      for (const event of eventData) {
+        // Buscar si el evento ya existe con el mismo título y fecha
+        const existingEvent = await Event.findOne({
+          where: { title: event.title, date: event.date }
+        });
+    
+        // Si no existe, lo creamos
+        if (!existingEvent) {
+          await Event.create(event);
+          console.log(`Evento ${event.title} insertado correctamente`);
+        } else {
+          console.log(`Evento ${event.title} ya existe, no se insertó`);
+        }
+      }
+    } catch (error) {
+      console.error("Error al insertar eventos:", error);
+    }
+    
+
 };
+
+
+
 
 export default insertInitialData;
