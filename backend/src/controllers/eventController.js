@@ -26,10 +26,12 @@ export const getEventById = async (req, res) => {
 // Crear un nuevo evento
 export const addEvent = async (req, res) => {
   try {
+    console.log("Datos recibidos:", req.body);  // Log para ver qué se está enviando
     const { title, description, type, date } = req.body;
     const newEvent = await Event.create({ title, description, type, date });
     res.status(201).json(newEvent);
   } catch (error) {
+    console.error("Error al crear el evento:", error);
     res.status(500).json({ message: 'Error al crear el evento' });
   }
 };
