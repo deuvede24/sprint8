@@ -41,7 +41,7 @@ export class ViewRecipeComponent implements OnInit {
     }
   }
 
-  getRecipeById(id: number) {
+ /* getRecipeById(id: number) {
     this.loading = true;
     this.recipeService.getRecipeById(id).subscribe({
       next: (data: Recipe) => {
@@ -53,6 +53,21 @@ export class ViewRecipeComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
+  }*/
+
+    getRecipeById(id: number) {
+      this.loading = true;
+      this.recipeService.getRecipeById(id).subscribe({
+        next: (response: { code: number; message: string; data: Recipe }) => {
+          this.recipe = response.data;
+          this.loading = false;
+        },
+        error: () => {
+          // Maneja el error
+          this.loading = false;
+        }
+      });
+    }
+    
 }
 

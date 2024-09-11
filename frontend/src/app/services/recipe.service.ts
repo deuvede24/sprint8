@@ -56,33 +56,61 @@ export class RecipeService {
 
   constructor(private http: HttpClient) { }
 
-  getRecipes(): Observable<{ code: number; message: string; data: Recipe[] }> {
+   /*getRecipes(): Observable<{ code: number; message: string; data: Recipe[] }> {
+     return this.http.get<{ code: number; message: string; data: Recipe[] }>(this.apiUrl, { withCredentials: true });
+   }
+ 
+   getRecipeById(id: number): Observable<Recipe> {
+     return this.http.get<Recipe>(`${this.apiUrl}/${id}`, { withCredentials: true });
+   }
+ 
+   addRecipe(recipe: Recipe): Observable<Recipe> {
+     return this.http.post<Recipe>(this.apiUrl, recipe, { withCredentials: true });
+   }
+   
+ 
+   updateRecipe(id: number, recipe: Recipe): Observable<void> {
+     return this.http.put<void>(`${this.apiUrl}/${id}`, recipe, { withCredentials: true });
+   }
+ 
+   deleteRecipe(id: number): Observable<void> {
+     return this.http.delete<void>(`${this.apiUrl}/${id}`, { withCredentials: true });
+   }
+ 
+   saveRecipe(recipe: Recipe): Observable<Recipe> {
+     // Esto está redundante y causará una URL incorrecta
+     return this.http.post<Recipe>(this.apiUrl, recipe, { withCredentials: true });
+   }*/
+
+
+  // Obtener todas las recetas con código, mensaje y data
+ getRecipes(): Observable<{ code: number; message: string; data: Recipe[] }> {
     return this.http.get<{ code: number; message: string; data: Recipe[] }>(this.apiUrl, { withCredentials: true });
   }
 
-  getRecipeById(id: number): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiUrl}/${id}`, { withCredentials: true });
+  // Obtener una receta por ID
+  getRecipeById(id: number): Observable<{ code: number; message: string; data: Recipe }> {
+    return this.http.get<{ code: number; message: string; data: Recipe }>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  addRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.http.post<Recipe>(this.apiUrl, recipe, { withCredentials: true });
-  }
-  
-
-  updateRecipe(id: number, recipe: Recipe): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, recipe, { withCredentials: true });
+  // Agregar una nueva receta
+  addRecipe(recipe: Recipe): Observable<{ code: number; message: string; data: Recipe }> {
+    return this.http.post<{ code: number; message: string; data: Recipe }>(this.apiUrl, recipe, { withCredentials: true });
   }
 
-  deleteRecipe(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { withCredentials: true });
+  // Actualizar una receta existente
+  updateRecipe(id: number, recipe: Recipe): Observable<{ code: number; message: string }> {
+    return this.http.put<{ code: number; message: string }>(`${this.apiUrl}/${id}`, recipe, { withCredentials: true });
   }
 
-  /*saveRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.http.post<Recipe>(`${this.apiUrl}/recipes`, recipe, { withCredentials: true });
-  }*/
-
-  saveRecipe(recipe: Recipe): Observable<Recipe> {
-    // Esto está redundante y causará una URL incorrecta
-    return this.http.post<Recipe>(this.apiUrl, recipe, { withCredentials: true });
+  // Eliminar una receta
+  deleteRecipe(id: number): Observable<{ code: number; message: string }> {
+    return this.http.delete<{ code: number; message: string }>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
+
+  // Método para guardar receta
+  saveRecipe(recipe: Recipe): Observable<{ code: number; message: string; data: Recipe }> {
+    return this.http.post<{ code: number; message: string; data: Recipe }>(this.apiUrl, recipe, { withCredentials: true });
+  }
+
 }

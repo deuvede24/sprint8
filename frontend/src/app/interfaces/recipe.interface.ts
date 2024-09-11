@@ -1,3 +1,5 @@
+import { RecipeIngredient } from './recipe-ingredient.interface';
+
 export interface Recipe {
     id_recipe: number;
     title: string;
@@ -8,5 +10,6 @@ export interface Recipe {
     created_at?: string;
     updated_at?: string;
     user_id: number;
+    ingredients?: RecipeIngredient[]; // Nueva propiedad para manejar ingredientes
   }
-  //
+  

@@ -271,7 +271,8 @@ export const getRecipeById = async (req, res) => {
   }
 };*/
 // Añadir una nueva receta
-export const addRecipe = async (req, res) => {
+//CANVI 10/septiembre 
+/*export const addRecipe = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -313,7 +314,66 @@ export const addRecipe = async (req, res) => {
       message: 'Error adding recipe'
     });
   }
+};*/
+export const addRecipe = async (req, res) => {
+  try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+      }
+
+      // Desestructuramos los datos
+      const { title, description, steps, category, is_premium, ingredients } = req.body;
+
+      // Verificamos que los campos necesarios estén presentes
+      if (!title || !description || !steps || !category || is_premium === undefined || !ingredients || ingredients.length === 0) {
+          return res.status(400).json({
+              code: -2,
+              message: 'All fields (title, description, steps, category, is_premium, ingredients) must be provided',
+          });
+      }
+
+      // Creamos la receta
+      let newRecipe;
+      try {
+          newRecipe = await Recipe.create({ title, description, steps, category, is_premium });
+      } catch (error) {
+          if (error.name === 'SequelizeUniqueConstraintError') {
+              return res.status(400).json({
+                  code: -61,
+                  message: 'Duplicate Recipe Title',
+              });
+          }
+          throw error;
+      }
+
+      // Una vez creada la receta, añadimos los ingredientes a la tabla intermedia
+      const ingredientPromises = ingredients.map(async (ingredient) => {
+          const { id_ingredient, quantity } = ingredient; // Asegúrate de que el front envíe estos valores correctamente
+          return await RecipeIngredient.create({
+              recipe_id: newRecipe.id_recipe,
+              ingredient_id: id_ingredient,
+              quantity: quantity,
+          });
+      });
+
+      await Promise.all(ingredientPromises);
+
+      // Respondemos con éxito
+      res.status(200).json({
+          code: 1,
+          message: 'Recipe and ingredients added successfully',
+          data: newRecipe,
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({
+          code: -100,
+          message: 'Error adding recipe and ingredients',
+      });
+  }
 };
+
 
 
 // Actualizar una receta existente
