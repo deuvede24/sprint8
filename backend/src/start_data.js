@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "./models/userModel.js";
 import Recipe from "./models/recipeModel.js";
-import Ingredient from "./models/ingredientModel.js";
-import RecipeIngredient from "./models/recipeIngredientModel.js";
 import Comment from "./models/commentModel.js";
 import Favorite from "./models/favoriteModel.js";
 import MapLocation from "./models/mapModel.js";
@@ -37,17 +35,6 @@ const insertInitialData = async () => {
       preference: "vegan",
       avatar: null,
     },
-    /* {
-      email: 'guest@example.com',
-      password: 'hashedpassword3',
-      name: 'Guest',
-      surname: null,
-      roles: ['guest'],
-      photo: null,
-      location: 'Location3',
-      preference: 'vegetarian',
-      avatar: null
-    },*/
   ];
 
   await User.bulkCreate(userData, { ignoreDuplicates: true });
@@ -59,6 +46,7 @@ const insertInitialData = async () => {
       description: "A classic Italian pasta dish with a rich, savory sauce.",
       steps: "Cook spaghetti, prepare sauce, mix together",
       category: "traditional",
+      ingredients: "Spaghetti, Tomato Sauce, Ground Beef", // Ingredientes como texto
       is_premium: 0,
     },
     {
@@ -67,46 +55,14 @@ const insertInitialData = async () => {
       description: "A fresh and healthy salad with grilled chicken.",
       steps: "Cook chicken, mix ingredients, add dressing",
       category: "traditional",
+      ingredients: "Lettuce, Tomatoes, Chicken, Dressing", // Ingredientes como texto
       is_premium: 0,
     },
   ];
 
-  // Create recipes and get their IDs
+  // Crear recetas
   await Recipe.bulkCreate(recipeData, { ignoreDuplicates: true });
-  const recipes = await Recipe.findAll({
-    where: { title: ["Spaghetti Bolognese", "Chicken Salad"] },
-  });
-
-  console.log("Recipes:", recipes);
-
-  const ingredientData = [
-    { name: "Spaghetti" },
-    { name: "Tomato Sauce" },
-    { name: "Ground Beef" },
-    { name: "Lettuce" },
-    { name: "Tomatoes" },
-    { name: "Dressing" },
-  ];
-
-  // Create ingredients and get their IDs
-  await Ingredient.bulkCreate(ingredientData, { ignoreDuplicates: true });
-  const ingredients = await Ingredient.findAll({
-    where: {
-      name: [
-        "Spaghetti",
-        "Tomato Sauce",
-        "Ground Beef",
-        "Lettuce",
-        "Tomatoes",
-        "Dressing",
-      ],
-    },
-  });
-
-  console.log("Ingredients:", ingredients);
-
-  //await Comment.destroy({ where: {}, truncate: true });
-  //await Favorite.destroy({ where: {}, truncate: true });
+  console.log("Recetas insertadas correctamente.");
 
   const commentData = [
     {
@@ -121,7 +77,7 @@ const insertInitialData = async () => {
     },
   ];
   await Comment.bulkCreate(commentData, { ignoreDuplicates: true });
-  console.log("Comments inserted successfully");
+  console.log("Comentarios insertados correctamente.");
 
   const favoriteData = [
     {
@@ -134,48 +90,7 @@ const insertInitialData = async () => {
     },
   ];
   await Favorite.bulkCreate(favoriteData, { ignoreDuplicates: true });
-  console.log("Favorites inserted successfully");
-
-  const recipeIngredientsData = [
-    {
-      recipe_id: recipes[0].id_recipe,
-      ingredient_id: ingredients[0].id_ingredient,
-      quantity: "200g",
-    },
-    {
-      recipe_id: recipes[0].id_recipe,
-      ingredient_id: ingredients[1].id_ingredient,
-      quantity: "100g",
-    },
-    {
-      recipe_id: recipes[0].id_recipe,
-      ingredient_id: ingredients[2].id_ingredient,
-      quantity: "300g",
-    },
-    {
-      recipe_id: recipes[1].id_recipe,
-      ingredient_id: ingredients[3].id_ingredient,
-      quantity: "150g",
-    },
-    {
-      recipe_id: recipes[1].id_recipe,
-      ingredient_id: ingredients[4].id_ingredient,
-      quantity: "100g",
-    },
-    {
-      recipe_id: recipes[1].id_recipe,
-      ingredient_id: ingredients[5].id_ingredient,
-      quantity: "50ml",
-    },
-  ];
-
-  console.log("RecipeIngredientsData:", recipeIngredientsData);
-
-  await RecipeIngredient.bulkCreate(recipeIngredientsData, {
-    ignoreDuplicates: true,
-  });
-
-  console.log("RecipeIngredients inserted successfully");
+  console.log("Favoritos insertados correctamente.");
 
   // Datos de ejemplo para ubicaciones en Barcelona
   const mapLocationData = [
@@ -212,16 +127,11 @@ const insertInitialData = async () => {
     },
   ];
 
-  // Inserta las ubicaciones en la base de datos
   await MapLocation.bulkCreate(mapLocationData, { ignoreDuplicates: true });
-
   console.log("Ubicaciones del mapa insertadas correctamente.");
 
   // Eventos de ejemplo en Barcelona
-
-  console.log("Intentando insertar eventos...");
-
-  /*const eventData = [
+  const eventData = [
     {
       title: "Lanzamiento de Receta Tacos Veganos",
       description: "Receta especial de tacos veganos para el público",
@@ -237,52 +147,21 @@ const insertInitialData = async () => {
   ];
 
   try {
-    //await Event.bulkCreate(eventData);
-    await Event.bulkCreate(eventData, { ignoreDuplicates: true });
-    console.log("Eventos insertados correctamente");
+    for (const event of eventData) {
+      const existingEvent = await Event.findOne({
+        where: { title: event.title, date: event.date },
+      });
+
+      if (!existingEvent) {
+        await Event.create(event);
+        console.log(`Evento ${event.title} insertado correctamente`);
+      } else {
+        console.log(`Evento ${event.title} ya existe, no se insertó`);
+      }
+    }
   } catch (error) {
     console.error("Error al insertar eventos:", error);
-  }*/
-    console.log("Intentando insertar eventos...");
-
-    const eventData = [
-      {
-        title: "Lanzamiento de Receta Tacos Veganos",
-        description: "Receta especial de tacos veganos para el público",
-        type: "receta",
-        date: new Date("2024-09-16"),
-      },
-      {
-        title: "Apertura de Restaurante Vegano",
-        description: "Un nuevo restaurante vegano abrirá sus puertas",
-        type: "restaurante",
-        date: new Date("2024-09-20"),
-      },
-    ];
-    
-    try {
-      for (const event of eventData) {
-        // Buscar si el evento ya existe con el mismo título y fecha
-        const existingEvent = await Event.findOne({
-          where: { title: event.title, date: event.date }
-        });
-    
-        // Si no existe, lo creamos
-        if (!existingEvent) {
-          await Event.create(event);
-          console.log(`Evento ${event.title} insertado correctamente`);
-        } else {
-          console.log(`Evento ${event.title} ya existe, no se insertó`);
-        }
-      }
-    } catch (error) {
-      console.error("Error al insertar eventos:", error);
-    }
-    
-
+  }
 };
-
-
-
 
 export default insertInitialData;

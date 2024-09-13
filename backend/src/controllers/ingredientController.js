@@ -3,13 +3,39 @@ import Ingredient from '../models/ingredientModel.js';
 import { validationResult } from 'express-validator';
 
 export const getIngredients = async (req, res) => {
-  try {
+  app.get('/ingredients', (req, res) => {
+    console.log('Recibida petición GET /ingredients');
+    // ... resto del código
+  });
+ /* try {
     const ingredients = await Ingredient.findAll();
     res.status(200).json({ ingredients });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+};*/
+
+  try {
+    const ingredients = await Ingredient.findAll();  // Supongamos que estás usando Sequelize
+    if (!ingredients) {
+      return res.status(404).json({
+        code: 404,
+        message: "No ingredients found"
+      });
+    }
+    res.status(200).json({
+      code: 200,
+      data: ingredients
+    });
+  } catch (error) {
+    res.status(500).json({
+      code: 500,
+      message: "Internal Server Error",
+      error: error.message
+    });
+  }
 };
+
 
 export const getIngredientById = async (req, res) => {
   try {

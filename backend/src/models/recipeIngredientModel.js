@@ -4,13 +4,17 @@ import Recipe from './recipeModel.js';
 import Ingredient from './ingredientModel.js';
 
 const RecipeIngredient = sequelize.define('RecipeIngredient', {
+  id_RecipeIngredients: {
+    type: DataTypes.INTEGER(8).UNSIGNED,
+    primaryKey: true,
+  },
   recipe_id: {
     type: DataTypes.INTEGER(8).UNSIGNED,
     references: {
       model: Recipe,
       key: 'id_recipe'
     },
-    primaryKey: true,
+    primaryKey: false,
   },
   ingredient_id: {
     type: DataTypes.INTEGER(8).UNSIGNED,
@@ -18,7 +22,7 @@ const RecipeIngredient = sequelize.define('RecipeIngredient', {
       model: Ingredient,
       key: 'id_ingredient'
     },
-    primaryKey: true,
+    primaryKey:false,
   },
   quantity: {
     type: DataTypes.STRING(50),

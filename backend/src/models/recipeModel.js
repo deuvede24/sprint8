@@ -32,6 +32,10 @@ const Recipe = sequelize.define('Recipe', {
     type: DataTypes.TINYINT(1),
     allowNull: false,
     defaultValue: 0
+  },
+  ingredients: {
+    type: DataTypes.TEXT, // Añadimos la columna para almacenar los ingredientes directamente
+    allowNull: false,
   }
 }, {
   

@@ -12,4 +12,6 @@ export interface Recipe {
     user_id: number;
     ingredients?: RecipeIngredient[]; // Nueva propiedad para manejar ingredientes
   }
+
+  
   

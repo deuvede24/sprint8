@@ -53,6 +53,7 @@ app.use('/events', eventRoutes);  // Añadir las rutas de eventos
 app.use('/api/charts', chartRoutes); 
 
 
+
 // Iniciar el servidor
 const PORT = 3000;
 app.listen(PORT, () => {

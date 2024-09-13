@@ -113,4 +113,9 @@ export class RecipeService {
     return this.http.post<{ code: number; message: string; data: Recipe }>(this.apiUrl, recipe, { withCredentials: true });
   }
 
+  getRecipeCategoryCount() {
+    return this.http.get<{ code: number; message: string; data: any[] }>('/recipes/category-count');
+  }
+  
+
 }

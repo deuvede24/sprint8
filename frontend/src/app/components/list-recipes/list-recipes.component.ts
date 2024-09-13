@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../interfaces/recipe.interface';
-import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../services/notification.service';
 import { AuthService } from '../../services/auth.service';
 import * as Papa from 'papaparse';
@@ -22,7 +21,6 @@ export class ListRecipesComponent implements OnInit {
 
   constructor(
     private recipeService: RecipeService,
-    private toastr: ToastrService,
     private notificationService: NotificationService,
     private router: Router,
     public authService: AuthService
@@ -40,7 +38,7 @@ export class ListRecipesComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.toastr.error('Error al cargar las recetas', 'Error');
+        this.notificationService.showError('Error al cargar las recetas.');
         this.loading = false;
       }
     });
@@ -68,7 +66,7 @@ export class ListRecipesComponent implements OnInit {
     this.recipeService.deleteRecipe(id).subscribe({
       next: () => {
         this.getRecipes(); // Recargar la lista después de eliminar
-        this.toastr.success('La receta fue eliminada con éxito', 'Receta Eliminada');
+        this.notificationService.showSuccess('La receta fue eliminada con éxito.');
         this.loading = false;
       },
       error: () => {
@@ -84,4 +82,3 @@ export class ListRecipesComponent implements OnInit {
     saveAs(blob, 'recetas.csv'); // Descarga el archivo CSV
   }
 }
-
