@@ -52,7 +52,7 @@ export class ListRecipesComponent implements OnInit {
     this.router.navigate(['/recipes/add']);  // Redirige al componente de añadir receta
   }
 
-  deleteRecipe(id: number) {
+ /* deleteRecipe(id: number) {
     // Verificamos si el usuario es un invitado
     const currentUser = this.authService.getUser();
     const userRole = currentUser?.role;
@@ -74,7 +74,33 @@ export class ListRecipesComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
+  }*/
+
+    deleteRecipe(id: number) {
+      // Verificamos si el usuario es un invitado
+      const currentUser = this.authService.getUser();
+      const userRole = currentUser?.role;
+      if (userRole === 'guest') {
+        this.notificationService.showError('Los usuarios invitados no pueden eliminar recetas.');
+        return;
+      }
+    
+      // Confirmación antes de eliminar
+      if (confirm('¿Estás seguro de que deseas eliminar esta receta?')) {
+        this.loading = true;
+        this.recipeService.deleteRecipe(id).subscribe({
+          next: () => {
+            this.getRecipes(); // Recargar la lista después de eliminar
+            this.notificationService.showSuccess('La receta fue eliminada con éxito.');
+            this.loading = false;
+          },
+          error: () => {
+            this.notificationService.showError('Error al eliminar la receta.');
+            this.loading = false;
+          }
+        });
+      }
+    }
 
   downloadCSV() {
     const csvData = Papa.unparse(this.recipeList); // Convierte la lista de recetas a CSV
