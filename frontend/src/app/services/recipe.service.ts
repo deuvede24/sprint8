@@ -113,8 +113,12 @@ export class RecipeService {
     return this.http.post<{ code: number; message: string; data: Recipe }>(this.apiUrl, recipe, { withCredentials: true });
   }
 
-  getRecipeCategoryCount() {
+ /* getRecipeCategoryCount() {
     return this.http.get<{ code: number; message: string; data: any[] }>('/recipes/category-count');
+  }*/
+
+  getRecipeCategoryCount(): Observable<{ code: number; message: string; data: any[] }> {
+    return this.http.get<{ code: number; message: string; data: any[] }>(`${this.apiUrl}/category-count`, { withCredentials: true });
   }
   
 

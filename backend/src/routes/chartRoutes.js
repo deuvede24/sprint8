@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getMostUsedIngredients } from '../controllers/chartController.js';
+import { getRecipeCategoryCount } from '../controllers/chartController.js';
 
 const router = Router();
 
-// Ruta para obtener los ingredientes más usados
-router.get('/most-used-ingredients', getMostUsedIngredients);
+// Ruta para obtener el conteo de recetas por categoría
+router.get('/category-count', getRecipeCategoryCount);
 
 export default router;

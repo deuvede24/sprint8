@@ -97,7 +97,7 @@ export const addRecipe = async (req, res) => {
 };
 
 // Actualizar una receta existente
-export const updateRecipe = async (req, res) => {
+/*export const updateRecipe = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -151,7 +151,58 @@ export const updateRecipe = async (req, res) => {
       message: "Error updating recipe",
     });
   }
+};*/
+export const updateRecipe = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { id } = req.params;
+    const recipe = await Recipe.findByPk(id);
+
+    if (!recipe) {
+      return res.status(404).json({
+        code: -3,
+        message: "Recipe not found",
+      });
+    }
+
+    // Aquí permitimos actualizaciones parciales usando el operador spread
+    const {
+      title = recipe.title, // Si no se envía un campo, se conserva el valor actual
+      description = recipe.description,
+      steps = recipe.steps,
+      category = recipe.category,
+      is_premium = recipe.is_premium,
+      ingredients = recipe.ingredients,
+    } = req.body;
+
+    // Actualizar los campos de la receta
+    recipe.title = title;
+    recipe.description = description;
+    recipe.steps = steps;
+    recipe.category = category;
+    recipe.is_premium = is_premium;
+    recipe.ingredients = ingredients;
+
+    await recipe.save();
+
+    res.status(200).json({
+      code: 1,
+      message: "Recipe updated successfully",
+      data: recipe,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      code: -100,
+      message: "Error updating recipe",
+    });
+  }
 };
+
 
 // Eliminar una receta
 export const deleteRecipe = async (req, res) => {

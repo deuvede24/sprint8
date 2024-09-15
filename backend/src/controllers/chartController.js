@@ -1,41 +1,31 @@
-import { sequelize } from "../db.js";
-import Ingredient from "../models/ingredientModel.js";
 import Recipe from "../models/recipeModel.js";
-import RecipeIngredient from "../models/recipeIngredientModel.js";
+import { Sequelize } from "sequelize";
 
-export const getMostUsedIngredients = async (req, res) => {
+// Obtener el conteo de recetas por categoría
+export const getRecipeCategoryCount = async (req, res) => {
   try {
-    const mostUsedIngredients = await Ingredient.findAll({
-      include: [
-        {
-          model: Recipe,
-          through: { model: RecipeIngredient }, // Sin alias, ya que no es necesario
-          attributes: [],
-        },
-      ],
+    const categoryCounts = await Recipe.findAll({
       attributes: [
-        'name',
-        [
-          sequelize.fn('COUNT', sequelize.col('RecipeIngredients.ingredient_id')), // Cambiamos RecipeIngredients por RecipeIngredient
-          'count',
-        ],
+        'category',
+        [Sequelize.fn('COUNT', Sequelize.col('category')), 'count'],
       ],
-      group: ['Ingredient.id_ingredient'],
-      order: [[sequelize.literal('count'), 'DESC']],
-      limit: 5, // Ajusta este valor según lo que necesites
+      group: ['category'],
     });
 
-    console.log("Resultado de la consulta:", mostUsedIngredients);
-    res.status(200).json(mostUsedIngredients);
+    console.log("Resultado del conteo de recetas por categoría:", categoryCounts);
+    res.status(200).json({
+      code: 1,
+      message: "Recipe category count",
+      data: categoryCounts,
+    });
   } catch (error) {
-    console.error("Error al obtener los ingredientes más utilizados:", error);
+    console.error("Error al obtener el conteo de recetas por categoría:", error);
     res.status(500).json({
-      message: "Error al obtener los ingredientes más utilizados",
+      message: "Error al obtener el conteo de recetas por categoría",
       error: error,
     });
   }
 };
-
 
   
 /*export const getMostUsedIngredients = async (req, res) => {
