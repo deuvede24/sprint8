@@ -30,6 +30,8 @@ import { idValidator } from '../validations/genericValidation.js';
 
 const router = Router();
 
+router.get('/category-count', getRecipeCategoryCount); // Asegúrate de que esta ruta esté aquí
+
 router.get('/:id', getRecipeById);
 router.post('/', authenticateToken(['user', 'admin']), recipeValidator, addRecipe);
 
@@ -41,9 +43,6 @@ router.delete('/:id', authenticateToken(['user','admin']), idValidator, deleteRe
 
 // Ruta accesible para todos para obtener las recetas
 router.get('/', getRecipes);
-
-// Nueva ruta para obtener el conteo de recetas por categoría
-router.get('/category-count', getRecipeCategoryCount); 
 
 
 export default router;

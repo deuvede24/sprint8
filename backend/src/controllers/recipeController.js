@@ -183,25 +183,27 @@ export const deleteRecipe = async (req, res) => {
 export const getRecipeCategoryCount = async (req, res) => {
   try {
     console.log('getRecipeCategoryCount endpoint hit');
-    const categories = await Recipe.findAll({
+    
+    const categoryCounts = await Recipe.findAll({
       attributes: [
-        'category',
+        'category', 
         [Sequelize.fn('COUNT', Sequelize.col('category')), 'count']
       ],
       group: ['category']
     });
-    console.log('Categories found:', categories);
+
+    console.log('Categories found:', categoryCounts);
 
     res.status(200).json({
       code: 1,
       message: "Recipe category count",
-      data: categories,
+      data: categoryCounts,
     });
   } catch (error) {
     console.error('Error in getRecipeCategoryCount:', error);
     res.status(500).json({
       code: -100,
-      message: "Error fetching recipe category count",
+      message: "Error fetching category count",
     });
   }
 };
