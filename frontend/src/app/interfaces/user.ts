@@ -1,17 +1,3 @@
-/*export interface User {
-  fullName: string;
-  email: string;
-  password: string;
-  role?: 'admin' | 'user' | 'guest';  // Añadimos el rol aquí
-}*/
-/*export interface User {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  role?: 'admin' | 'user' | 'guest';
-}*/
-
 export interface User {
   id_user?: number;
   email: string;

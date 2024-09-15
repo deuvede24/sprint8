@@ -1,15 +1,3 @@
-/*import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-edit-location',
-  standalone: true,
-  imports: [],
-  templateUrl: './edit-location.component.html',
-  styleUrl: './edit-location.component.scss'
-})
-export class EditLocationComponent {
-
-}*/
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';

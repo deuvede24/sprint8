@@ -1,16 +1,3 @@
-/*import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-list-locations',
-  standalone: true,
-  imports: [],
-  templateUrl: './list-locations.component.html',
-  styleUrl: './list-locations.component.scss'
-})
-export class ListLocationsComponent {
-
-}*/
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -40,51 +27,25 @@ export class ListLocationsComponent implements OnInit {
     this.loadLocations();
   }
 
-  /*loadLocations(): void {
-    this.locationService.getLocations().subscribe(
-      (data) => {
-        this.locations =[...data];
-      },
-      (error) => {
-        console.error('Error loading locations', error);
-      }
-    );
-  }*/
+  isLoading = false;
 
-   /* loadLocations(): void {
-      console.log('Llamada a loadLocations');
+  loadLocations(): void {
+    if (!this.isLoading) {
+      this.isLoading = true;
       this.locationService.getLocations().pipe(
         tap(data => {
-          console.log('Datos recibidos del backend:', data);
-          this.locations = [...data];  // Reemplazar completamente el array
+          this.locations = [...data];
+          this.isLoading = false; // Terminar estado de carga
         }),
         catchError(error => {
           console.error('Error loading locations', error);
-          return of([]);  // Devolver un array vacío en caso de error
+          this.isLoading = false;  // Manejar errores
+          return of([]);
         })
       ).subscribe();
-    }*/
-
-    isLoading = false;
-
-loadLocations(): void {
-  if (!this.isLoading) {
-    this.isLoading = true;
-    this.locationService.getLocations().pipe(
-      tap(data => {
-        this.locations = [...data];
-        this.isLoading = false; // Terminar estado de carga
-      }),
-      catchError(error => {
-        console.error('Error loading locations', error);
-        this.isLoading = false;  // Manejar errores
-        return of([]);
-      })
-    ).subscribe();
+    }
   }
-}
 
-    
 
   deleteLocation(id: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar esta ubicación?')) {

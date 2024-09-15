@@ -1,16 +1,3 @@
-/*import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-view-recipe',
-  standalone: true,
-  imports: [],
-  templateUrl: './view-recipe.component.html',
-  styleUrl: './view-recipe.component.scss'
-})
-export class ViewRecipeComponent {
-
-}*/
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
@@ -41,33 +28,19 @@ export class ViewRecipeComponent implements OnInit {
     }
   }
 
- /* getRecipeById(id: number) {
+  getRecipeById(id: number) {
     this.loading = true;
     this.recipeService.getRecipeById(id).subscribe({
-      next: (data: Recipe) => {
-        this.recipe = data;
+      next: (response: { code: number; message: string; data: Recipe }) => {
+        this.recipe = response.data;
         this.loading = false;
       },
       error: () => {
-        // Maneja el error (puedes mostrar un mensaje)
+        // Maneja el error
         this.loading = false;
       }
     });
-  }*/
+  }
 
-    getRecipeById(id: number) {
-      this.loading = true;
-      this.recipeService.getRecipeById(id).subscribe({
-        next: (response: { code: number; message: string; data: Recipe }) => {
-          this.recipe = response.data;
-          this.loading = false;
-        },
-        error: () => {
-          // Maneja el error
-          this.loading = false;
-        }
-      });
-    }
-    
 }
 
