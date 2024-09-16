@@ -19,6 +19,10 @@ export class MapComponent implements AfterViewInit {
   selectedLocation: Location | null = null; // Cambiado para aceptar null
   panelVisible: boolean = false; // Control para la visibilidad del panel
 
+  markers: mapboxgl.Marker[] = []; // Array para almacenar los marcadores
+  filteredMarkers: mapboxgl.Marker[] = []; // Marcadores filtrados
+  selectedCategories: Set<string> = new Set(); // Set para las categorías seleccionadas
+
   constructor(private locationService: LocationService, private http: HttpClient) { }
 
   ngAfterViewInit(): void {
@@ -55,12 +59,14 @@ export class MapComponent implements AfterViewInit {
   addMarkers(): void {
     this.locationService.getLocations().subscribe((locations) => {
       locations.forEach((location) => {
-        this.addMarkerToMap(location);
+        //this.addMarkerToMap(location);
+        const marker = this.addMarkerToMap(location);
+        this.markers.push(marker); // Almacenar todos los marcadores
       });
     });
   }
 
-  addMarkerToMap(location: Location): void {
+  addMarkerToMap(location: Location): mapboxgl.Marker {
     const marker = new mapboxgl.Marker()
       .setLngLat([location.longitude, location.latitude])
       .setPopup(
@@ -79,18 +85,86 @@ export class MapComponent implements AfterViewInit {
       e.stopPropagation(); // Prevenir el evento de doble clic en el mapa
       this.showLocationDetails(location); // Mostrar detalles de la ubicación
     });
+    return marker;
   }
+
+  // Método para manejar la selección de filtros de categoría
+  filterMarkers(event: any): void {
+    const category = event.target.value.toLowerCase();
+
+    if (event.target.checked) {
+      this.selectedCategories.add(category); // Añadir categoría al set
+    } else {
+      this.selectedCategories.delete(category); // Eliminar categoría del set
+    }
+
+    // Filtrar marcadores
+    this.applyMarkerFilter();
+  }
+
+  // Aplicar el filtro en función de las categorías seleccionadas
+ /* applyMarkerFilter(): void {
+    // Primero, ocultamos todos los marcadores
+    console.log('Categorías seleccionadas:', this.selectedCategories);
+    this.markers.forEach(marker => marker.remove());
+
+    // Mostramos solo los marcadores que coincidan con las categorías seleccionadas
+    this.locationService.getLocations().subscribe(locations => {
+      console.log('Ubicaciones recibidas:', locations); // Verifica que las categorías son correctas
+      locations.forEach(location => {
+       // console.log('Categorías seleccionadas:', Array.from(this.selectedCategories));
+        console.log('Categoría de la ubicación:', location.category);
+        const locationCategory = location.category ? location.category.toLowerCase() : '';
+        if (locationCategory && this.selectedCategories.has(locationCategory)) {
+          const marker = this.addMarkerToMap(location);
+          this.markers.push(marker); // Añadir solo los marcadores visibles
+      }
+        
+      });
+    });
+  }*/// Aplicar el filtro en función de las categorías seleccionadas
+applyMarkerFilter(): void {
+  // Primero, ocultamos todos los marcadores
+  console.log('Categorías seleccionadas:', this.selectedCategories);
+  this.markers.forEach(marker => marker.remove());
+
+  // Si no hay categorías seleccionadas, mostramos todas las ubicaciones
+  if (this.selectedCategories.size === 0) {
+    this.locationService.getLocations().subscribe(locations => {
+      console.log('Mostrando todas las ubicaciones porque no hay categorías seleccionadas.');
+      locations.forEach(location => {
+        const marker = this.addMarkerToMap(location);
+        this.markers.push(marker);
+      });
+    });
+  } else {
+    // Mostramos solo los marcadores que coincidan con las categorías seleccionadas
+    this.locationService.getLocations().subscribe(locations => {
+      console.log('Ubicaciones recibidas:', locations); // Verifica que las categorías son correctas
+      locations.forEach(location => {
+        const locationCategory = location.category ? location.category.toLowerCase() : '';
+        if (locationCategory && this.selectedCategories.has(locationCategory)) {
+          const marker = this.addMarkerToMap(location);
+          this.markers.push(marker); // Añadir solo los marcadores visibles
+        }
+      });
+    });
+  }
+}
+
+
 
   addNewLocation(lngLat: mapboxgl.LngLat): void {
     const name = prompt('Introduce un nombre para la nueva ubicación:');
     const description = prompt('Introduce una descripción para la nueva ubicación:');
-
-    if (name && description) {
+    const category = prompt('Introduce una categoría para la nueva ubicación:'); // Pide la categoría también
+    if (name && description && category) {
       const newLocation: Location = {
         name: name,
         description: description,
         latitude: lngLat.lat,
         longitude: lngLat.lng,
+        category: category, // Añadimos la categoría aquí
       };
 
       this.locationService.createLocation(newLocation).subscribe({

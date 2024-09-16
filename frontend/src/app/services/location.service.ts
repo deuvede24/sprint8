@@ -17,6 +17,7 @@ export class LocationService {
   // Obtener todas las ubicaciones
   getLocations(): Observable<Location[]> {
     return this.http.get<Location[]>(`${this.apiUrl}/locations`);
+    
   }
 
   // Obtener una ubicación específica por ID
@@ -40,15 +41,36 @@ export class LocationService {
   }
 
 
-  createLocation(location: Location): Observable<Location> {
+  /*createLocation(location: Location): Observable<Location> {
     return this.http.post<CreateLocationResponse>(`${this.apiUrl}/locations`, location)
       .pipe(map(response => response.newLocation)); // Solo devolvemos newLocation
-  }
+  }*/
+      createLocation(location: Location): Observable<Location> {
+        return this.http.post<CreateLocationResponse>(`${this.apiUrl}/locations`, location)
+          .pipe(map(response => {
+            // Aquí nos aseguramos que la respuesta incluya la categoría también
+            return {
+              ...response.newLocation,
+              category: response.newLocation.category || location.category, // Incluimos la categoría
+            };
+          }));
+      }
 
   // Actualizar una ubicación existente
-  updateLocation(id: number, location: Location): Observable<Location> {
+ /* updateLocation(id: number, location: Location): Observable<Location> {
     return this.http.put<Location>(`${this.apiUrl}/locations/${id}`, location);
-  }
+  }*/
+    updateLocation(id: number, location: Location): Observable<Location> {
+      return this.http.put<Location>(`${this.apiUrl}/locations/${id}`, location)
+        .pipe(map(response => {
+          // Nos aseguramos que la categoría también esté presente
+          return {
+            ...response,
+            category: response.category || location.category, // Incluimos la categoría si es necesario
+          };
+        }));
+    }
+    
 
   deleteLocation(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/locations/${id}`);

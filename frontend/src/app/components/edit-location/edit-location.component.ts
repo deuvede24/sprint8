@@ -28,7 +28,8 @@ export class EditLocationComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       latitude: [0, Validators.required],
-      longitude: [0, Validators.required]
+      longitude: [0, Validators.required],
+      category: ['', Validators.required] // Añadir la categoría aquí
     });
 
     this.id = Number(this.route.snapshot.paramMap.get('id') || 0);
@@ -48,7 +49,9 @@ export class EditLocationComponent implements OnInit {
           name: data.name || '',
           description: data.description || '',
           latitude: data.latitude || 0,
-          longitude: data.longitude || 0
+          longitude: data.longitude || 0,
+          category: data.category || '' // Cargar la categoría también
+          
         });
       },
       error: (error) => {

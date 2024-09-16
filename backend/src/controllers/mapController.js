@@ -14,7 +14,7 @@ export const getMapLocations = async (req, res) => {
 
 // Crear una nueva ubicación
 export const createMapLocation = async (req, res) => {
-  const { name, description, latitude, longitude } = req.body;
+  const { name, description, latitude, longitude, category } = req.body;
 
   try {
     const newLocation = await MapLocation.create({
@@ -22,6 +22,7 @@ export const createMapLocation = async (req, res) => {
       description,
       latitude,
       longitude,
+      category,
     });
     console.log("Ubicación creada:", newLocation);
     //res.status(201).json({ message: 'Ubicación creada correctamente.', newLocation });
@@ -33,9 +34,11 @@ export const createMapLocation = async (req, res) => {
         description: newLocation.description,
         latitude: Number(newLocation.latitude), // Convertimos explícitamente a número
         longitude: Number(newLocation.longitude), // Convertimos explícitamente a número
+        category: newLocation.category, // Incluimos la categoría en la respuesta
       },
     });
   } catch (error) {
+    console.error("Error al crear la ubicación del mapa:", error);
     res.status(500).json({ error: "Error al crear la ubicación del mapa." });
   }
 };
@@ -43,7 +46,7 @@ export const createMapLocation = async (req, res) => {
 // Actualizar una ubicación existente
 export const updateMapLocation = async (req, res) => {
   const { id } = req.params;
-  const { name, description, latitude, longitude } = req.body;
+  const { name, description, latitude, longitude, category } = req.body;
 
   try {
     const location = await MapLocation.findByPk(id);
@@ -55,6 +58,7 @@ export const updateMapLocation = async (req, res) => {
     location.description = description || location.description;
     location.latitude = latitude || location.latitude;
     location.longitude = longitude || location.longitude;
+    location.category = category || location.category; // Actualizamos la categoría si se proporcionó
 
     await location.save();
 

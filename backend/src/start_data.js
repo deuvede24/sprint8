@@ -111,6 +111,7 @@ const insertInitialData = async () => {
       description: "Un edificio modernista diseñado por Gaudí.",
       latitude: 41.3916,
       longitude: 2.1649,
+      category: "Museos",
     },
     {
       name: "Barri Gòtic (Barrio Gótico)",
@@ -118,12 +119,14 @@ const insertInitialData = async () => {
         "El casco antiguo de Barcelona con calles estrechas y arquitectura histórica.",
       latitude: 41.3833,
       longitude: 2.1833,
+      category: "Museos",
     },
     {
       name: "Museu Picasso",
       description: "Un museo dedicado a las obras del pintor Pablo Picasso.",
       latitude: 41.3851,
       longitude: 2.1805,
+      category: "Museos",
     },
   ];
 

@@ -5,6 +5,7 @@ export interface Location {
     description: string;
     latitude: number;
     longitude: number;
+    category?: string;  // Añadir la categoría
   }
 
   export interface CreateLocationResponse {

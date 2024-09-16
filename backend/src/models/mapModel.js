@@ -23,6 +23,10 @@ const MapLocation = sequelize.define('MapLocation', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  category: {
+    type: DataTypes.STRING, // Nueva columna para la categoría
+    allowNull: false,
+  },
 }, {
   // Añade timestamps (createdAt, updatedAt)
   timestamps: true,

@@ -28,6 +28,7 @@ export class LocationDetailComponent implements OnInit {
       description: ['', Validators.required],
       latitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]],
       longitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]],
+      category: ['', Validators.required]  
     });
   }
 
@@ -39,6 +40,7 @@ export class LocationDetailComponent implements OnInit {
         description: this.location.description,
         latitude: this.location.latitude,
         longitude: this.location.longitude,
+        category: this.location.category // Parchar categoría aquí
       });
     }
   }
