@@ -62,7 +62,9 @@ The project covers the following functionalities:
 
 ### CRUD Locations
 
-![CRUD Locations]((https://github.com/deuvede24/sprint8/blob/main/screenshots/crud_editLocations.jpeg) (https://github.com/deuvede24/sprint8/blob/main/screenshots/crud_locationsList.jpeg))
+![CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_locations1.jpeg)
+![Edit CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_editLocations.jpeg)
+
 
 ### FullCalendar
 
