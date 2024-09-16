@@ -107,7 +107,7 @@ export class MapComponent implements AfterViewInit {
 
   showLocationDetails(location: Location): void {
     this.selectedLocation = location;
-    this.panelVisible = true; // Mostrar el botón "Volver al mapa"
+    this.panelVisible = true; 
     this.openDetailPanel();
   }
 
