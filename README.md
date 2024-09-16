@@ -62,7 +62,7 @@ The project covers the following functionalities:
 
 ### CRUD Locations
 
-![CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_locations1.jpeg)
+![CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_locationsList.jpeg))
 ![Edit CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_editLocations.jpeg)
 
 
