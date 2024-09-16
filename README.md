@@ -10,36 +10,49 @@ Users can log in with:
 
 Alternatively, users can register via the **Register** page.
 
+### User Roles and Access:
+
+- **Guest Users:** Can only view the list of recipes. They **cannot perform** any CRUD actions on the recipes and **do not have access** to the map, charts, or calendar functionalities. 
+- **Registered Users:** After logging in, users have full access to all functionalities:
+  - Can perform full **CRUD actions** on recipes (create, edit, delete).
+  - Can interact with the **map**, **calendar**, and **charts** features, including adding and editing locations and events.
+
 The project covers the following functionalities:
-- **Map:** Stores and displays locations with latitude and longitude using MapBox, including different categories with a filtering option. Users can also add new locations and edit existing ones by interacting with the map.
-- **FullCalendar:** Allows users to add and delete events.
-- **Charts (Chart.js):** Displays two types of charts, including a bar chart and line chart for visualizing recipe categories.
+- **CRUD Recipes:** Registered users can create, edit, delete, and view recipes.
+- **Map:** Stores and displays locations with latitude and longitude using MapBox, including different categories with a filtering option. Registered users can add new locations and edit existing ones by interacting with the map.
+- **FullCalendar:** Allows registered users to add, edit, and delete events.
+- **Charts (Chart.js):** Displays three types of charts, including a bar chart, pie chart, and doughnut chart for visualizing recipe categories.
 
 ## Project Features
 
-### User Registration and Login
+### Recipe Management (CRUD)
 
-- **Registration:** Users can register by providing a unique email and password.
-- **Login:** Users can log in with their registered credentials.
+- **CRUD Recipes:** Registered users can create, view, edit, and delete recipes in the system. Each recipe includes information such as the recipe name, description, and category.
+- **Guest Users:** Can only view the list of recipes but cannot perform CRUD actions.
 
 ### Map with Location Markers and Editing Capabilities
 
-- **Location Storage:** Allows users to store a list of locations with latitude, longitude, name, description, and category.
+- **Location Storage:** Registered users can store a list of locations with latitude, longitude, name, description, and category.
 - **Category Filtering:** Includes multiple categories for locations, and users can filter locations based on these categories.
 - **Map Integration:** The map is implemented using **MapBox** and shows all stored locations with markers.
 - **Double Click to Add Location:** Users can double-click on the map to add a new location with a form that appears for entering name, description, and category.
 - **Edit and View Locations:** Double-clicking on any existing location marker opens a details panel where users can edit the location's information. Users can also navigate to a list of locations where editing is possible.
+- **Guest Users:** Do not have access to map functionalities.
+- **Registered Users:** Have full access to map features, including adding, editing, and filtering locations.
 
 ### FullCalendar Events
 
-- **Event Management:** Users can view a calendar to which they can add, edit, or delete events.
+- **Event Management:** Registered users can view a calendar to which they can add, edit, or delete events.
 - **Event API:** The events are stored in a backend API that allows CRUD operations for events on the calendar.
+- **Guest Users:** Do not have access to the calendar functionalities.
+- **Registered Users:** Can fully interact with the calendar, including adding, editing, and deleting events.
 
 ### Charts (Chart.js)
 
-- **Charts Integration:** Displays two types of charts using **Chart.js**:
+- **Charts Integration:** Displays three types of charts using **Chart.js**:
   - A **bar chart** representing the number of recipes by category (Vegan, Vegetarian, Traditional).
-  - A **line chart** for visualizing various statistics related to recipe data.
+  - A **pie chart** for visualizing the proportion of each category of recipes.
+  - A **doughnut chart** showing a visual breakdown of the recipe categories.
 
 ## Tech Stack
 
@@ -53,22 +66,22 @@ The project covers the following functionalities:
 
 ## Screenshots
 
-### Crud Recipes
+### CRUD Recipes
 ![CRUD Recipes](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_recipes.jpeg)
 
 ### Map with Category Filters and Editing Panel
 
-![Map with Category Filters](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_locations1.jpeg)
+![Map with Category Filters](https://github.com/deuvede24/sprint8/raw/main/screenshots/map_categoryfilters.jpeg)
 
 ### CRUD Locations
 
-![CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_locationsList.jpeg))
+![CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_locations1.jpeg)
 ![Edit CRUD Locations](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_editLocations.jpeg)
-
 
 ### FullCalendar
 
-![FullCalendar](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_calendarModal.jpeg)
+![FullCalendar](https://github.com/deuvede24/sprint8/raw/main/screenshots/calendar.jpeg)
+![Event Modal](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_calendarModal.jpeg)
 
 ### Charts
 
@@ -114,3 +127,4 @@ The project covers the following functionalities:
 7. **Access the application:**
     - The frontend will run at `http://localhost:4200/`
     - The backend API will run at `http://localhost:3000/`
+
