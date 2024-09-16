@@ -37,6 +37,11 @@ export class FullCalendarComponent implements AfterViewInit {
       selectable: true,
       dateClick: this.handleDateClick,
       eventClick: this.handleEventClick,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,dayGridDay'  // Aquí agregamos la vista de día
+      },
       events: [], // Eventos serán cargados al inicializar
     };
 
@@ -50,9 +55,24 @@ export class FullCalendarComponent implements AfterViewInit {
   }
 
   // Cargar los eventos una vez que el componente esté cargado
-  ngAfterViewInit(): void {
+  /*ngAfterViewInit(): void {
     this.loadEvents(); // Cargar los eventos después de la vista inicializada
-  }
+  }*/
+    ngAfterViewInit(): void {
+      this.loadEvents();
+      if (this.calendarComponent) {
+        const calendarApi = this.calendarComponent.getApi();
+    
+        // Forzamos que "today" muestre solo el día actual
+        const todayButton = document.querySelector('.fc-today-button');
+        if (todayButton) {
+          todayButton.addEventListener('click', () => {
+            calendarApi.changeView('dayGridDay');  // Cambia a la vista de día
+            calendarApi.today();  // Navega al día actual
+          });
+        }
+      }
+    }
 
   // Cargar los eventos desde el servicio
   loadEvents(): void {
