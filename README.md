@@ -53,21 +53,24 @@ The project covers the following functionalities:
 
 ## Screenshots
 
+### Crud Recipes
+![CRUD Recipes](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_recipes.jpeg)
+
 ### Map with Category Filters and Editing Panel
 
-![Map with Category Filters](file-4Qo5ZECx5mqaYHIyXDwXNxNM)
+![Map with Category Filters](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_locations1.jpeg)
 
 ### CRUD Locations
 
-![CRUD Locations](file-ufM8vSzADwmWHXn2iPzbo1oR)
+![CRUD Locations]((https://github.com/deuvede24/sprint8/blob/main/screenshots/crud_editLocations.jpeg) (https://github.com/deuvede24/sprint8/blob/main/screenshots/crud_locationsList.jpeg))
 
 ### FullCalendar
 
-![FullCalendar](file-ZrA19BnzQ07vo6CPyh8kgBjY)
+![FullCalendar](https://github.com/deuvede24/sprint8/raw/main/screenshots/crud_calendarModal.jpeg)
 
 ### Charts
 
-![Charts](https://raw.githubusercontent.com/deuvede24/sprint8/main/screenshots/calendar.jpeg))
+![Charts](https://github.com/deuvede24/sprint8/raw/main/screenshots/charts.jpeg)
 
 ## Installation Instructions
 
