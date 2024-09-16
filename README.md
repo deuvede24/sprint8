@@ -67,7 +67,7 @@ The project covers the following functionalities:
 
 ### Charts
 
-![Charts](file-kXcbbMsRLx3qncOrNRxX86ln)
+![Charts](https://raw.githubusercontent.com/deuvede24/sprint8/main/screenshots/calendar.jpeg))
 
 ## Installation Instructions
 
