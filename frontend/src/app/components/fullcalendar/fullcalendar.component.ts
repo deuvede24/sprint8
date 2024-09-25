@@ -58,21 +58,21 @@ export class FullCalendarComponent implements AfterViewInit {
   /*ngAfterViewInit(): void {
     this.loadEvents(); // Cargar los eventos después de la vista inicializada
   }*/
-    ngAfterViewInit(): void {
-      this.loadEvents();
-      if (this.calendarComponent) {
-        const calendarApi = this.calendarComponent.getApi();
-    
-        // Forzamos que "today" muestre solo el día actual
-        const todayButton = document.querySelector('.fc-today-button');
-        if (todayButton) {
-          todayButton.addEventListener('click', () => {
-            calendarApi.changeView('dayGridDay');  // Cambia a la vista de día
-            calendarApi.today();  // Navega al día actual
-          });
-        }
+  ngAfterViewInit(): void {
+    this.loadEvents();
+    if (this.calendarComponent) {
+      const calendarApi = this.calendarComponent.getApi();
+
+      // Forzamos que "today" muestre solo el día actual
+      const todayButton = document.querySelector('.fc-today-button');
+      if (todayButton) {
+        todayButton.addEventListener('click', () => {
+          calendarApi.changeView('dayGridDay');  // Cambia a la vista de día
+          calendarApi.today();  // Navega al día actual
+        });
       }
     }
+  }
 
   // Cargar los eventos desde el servicio
   loadEvents(): void {
@@ -107,9 +107,15 @@ export class FullCalendarComponent implements AfterViewInit {
   handleEventClick = (info: any): void => {
     this.addModal = true;
     this.selectedEvent = info.event;
-    this.eventForm.patchValue({
+    /*this.eventForm.patchValue({
       title: info.event.title,
       date: info.event.startStr,
+      description: info.event.extendedProps.description || '',
+      type: info.event.extendedProps.type || 'receta'  // Asegúrate de pasar el tipo*/
+    const formattedDate = info.event.start.toISOString().split('T')[0]; // Convierte la fecha correctamente
+    this.eventForm.patchValue({
+      title: info.event.title,
+      date: formattedDate,  // Asegúrate de que el campo de fecha reciba el valor en formato YYYY-MM-DD
       description: info.event.extendedProps.description || '',
       type: info.event.extendedProps.type || 'receta'  // Asegúrate de pasar el tipo
     });
@@ -168,7 +174,7 @@ export class FullCalendarComponent implements AfterViewInit {
     }
   }
 
-  
+
 
   // Resetear el formulario
   resetForm(): void {
